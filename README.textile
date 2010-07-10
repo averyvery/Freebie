@@ -2,7 +2,7 @@ Freebie is built to run in EE 2.0 ONLY.
 
 h2. What it Does
 
-Freebie allows you to pick a number of segment names that you want EE to completely ignore when routing. This is really helpful for analytics tracking, throwing "success" messages after forms, and creating "preview" pages to view unpublished entries. When you mix it with "Structure":http://www.buildwithstructure.com, things get CRAZY FUN.
+Freebie allows you to pick segment names that you want EE to completely ignore when routing. This throwing "success" messages after forms, creating "preview" pages, working with  "Structure":http://www.buildwithstructure.com, and much, much more.
 
 h2. Installation
 
@@ -11,9 +11,9 @@ h2. Installation
 
 h2. Usage
 
-h3. Settings
-
 Enter the segments you want to ignore on the extensions page in Addons > Extensions. You can use wildcards in your segment names! Examples:
+
+h4. Basic Settings
 
 @preview|success|error@
 
@@ -21,23 +21,23 @@ Enter the segments you want to ignore on the extensions page in Addons > Extensi
 success
 error@
 
+h4. Wildcards
+
 @march|april|may|ju*|august@
 
-In the example, 'ju*' means that both 'june' and 'july' will be freebie segments.
+The wildcard in @ju*@ means that both @june@ and @july@ will be freebie segments. 
 
-You can also set an option to automatically ignore all number-only segments - this is useful for displaying content at date-based urls, like /2010/10/5, while using modules like Structure, which use strict URI routing.
+h4. Numbers
+
+You can also set an option to automatically ignore all number-only segments - this is useful for using urls like blog/2010/20/ in Structure.
 
 h3. Templates
 
-The original segments will be available in their standard form, as @{segment_1}@, @{segment_2}@, etc. For example, if you url is:
+The *original* segments will be available in their standard form, as @{segment_1}@, @{segment_2}@, etc. For example, if your settings are @preview|*interns@ and the url is:
 
 @http://www.mysite.com/preview/about/2009interns/bios/@
 
-and your segments are @preview|*interns@, the template returned will be
-
-@about/bios@
-
-but in that template, the segments variables will return 1->preview, 2->about, 3->2009interns, 4->bios.
+a {segment_3} tag will output '2009interns'.
 
 h2. Where Credit Is Due
 
