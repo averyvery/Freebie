@@ -37,7 +37,7 @@ The *original* segments will be available in their standard form, as @{segment_1
 
 @http://www.mysite.com/preview/about/2009interns/bios/@
 
-a {segment_3} tag will output '2009interns'.
+a {segment_3} tag will output '2009interns', even though that segment is being ignored by the rest of EE.
 
 h2. Where Credit Is Due
 
