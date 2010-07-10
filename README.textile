@@ -31,7 +31,7 @@ You can set an option to automatically ignore all number-only segments - this is
 
 h3. Break Segments
 
-Break segments are entered just like Freebie segments, but instead of being ignored, break segments tell EE to ignore all FOLLOWING segments. Example: You're working in Structure, and want to use author urls and dates to control a blog, like so: /blog/lucille/2010/10. If you set "blog" as a break segment, you can throw whatever you want into the URI *after* this point without it affecting the template or page routing.
+Break segments are entered just like Freebie segments, but instead of being ignored, break segments tell EE to ignore all *following* segments. Example: You're working in Structure, and want to use author urls and dates to control a blog, like so: /blog/lucille/2010/10. If you set "blog" as a break segment, you can throw whatever you want into the URI *after* this point without it affecting the template or page routing.
 
 h3. Templates
 
