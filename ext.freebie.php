@@ -45,11 +45,9 @@ class Freebie_ext {
     $this->settings = $settings;
     $this->EE =& get_instance();
 
-    ini_set('display_errors',1);
-    error_reporting(E_ALL|E_STRICT);
     
     if($this->should_execute()){
-
+      
      /**
       * EE 2.0 relies on an internal array of segments for routing
       *   we'll be 'cleaning' our URI and producing shiny new segments from it,
@@ -58,7 +56,7 @@ class Freebie_ext {
      $this->set_dirty_segments_as_global_vars();
 
      // prep the user settings to use for cleaning the URI
-     $this->translate_settings();           
+     $this->parse_settings();           
 
      // remove the 'dirty' bits from the URI, which a user has specified in the settings
      $this->clean_uri();
@@ -90,8 +88,9 @@ class Freebie_ext {
            // no need to run on blank URIs
            $this->EE->uri->uri_string != '' &&
            
-           // DEVS: ANY IDEAS? Freebie actually executes twice - but the second time,
-           // the "settings" object is not an array and it break. Checking type fixes this.
+           // Freebie actually executes twice - but the second time,
+           // the "settings" object isn't an array, which breaks it.
+           // (No idea why). Checking type fixes this.
            gettype($this->settings) == 'array' &&
            
            // If the settings don't exist, don't check if they're blank
@@ -115,17 +114,15 @@ class Freebie_ext {
   /**
    * translate user settings to stuff we can use in the code
    */
-  function translate_settings(){
+  function parse_settings(){
 
-    $to_disappear = $this->settings['to_disappear'];
-
+    $str = $this->settings['to_disappear'];
+    
     // convert newline- and space-delimited settings to pipe-delimited ones
-    $to_disappear = preg_replace('/(\n| )/', '|', $to_disappear, -1);
+    $str = preg_replace('/(\n| )/', '|', $str, -1);
 
     // turn *s into true regex wildcards
-    $to_disappear = preg_replace('/\*/', '.*?', $to_disappear, -1);
-
-    $this->settings['to_disappear'] = $to_disappear;
+    $this->settings['to_disappear'] = preg_replace('/\*/', '.*?', $str, -1);
 
   }
 
@@ -134,12 +131,16 @@ class Freebie_ext {
    */  
   function clean_uri(){
     
-    // get the current URI
+    // make an array full of "original" segments, 
+    // and a blank array to move the good ones too
     $dirty_array    = explode('/', $this->EE->uri->uri_string);
     $clean_array    = array();
-    $remove_numbers = isset($this->settings['remove_numbers']) && $this->settings['remove_numbers'] == 'yes';
+
+    // did user set 'remove numbers' to 'yes'?
+    $remove_numbers = isset($this->settings['remove_numbers']) &&
+                      $this->settings['remove_numbers'] == 'yes';
     
-    // replace segments that match
+    // move any segments that don't match patterns to clean array
     foreach ($dirty_array as $segment){
       if(!preg_match('#('.$this->settings['to_disappear'].')#', $segment)){
         if(!$remove_numbers || !preg_match('/(\/[0-9]+|^[0-9]+)/', $segment)){
@@ -148,11 +149,13 @@ class Freebie_ext {
       }
     }
 
+    // reset the URI to our cleaned version - EE will need this for routing
     if(count($clean_array) != 0){
       $this->EE->uri->uri_string = implode('/', $clean_array);      
     } else {
-      $this->EE->uri->uri_string = '';
+      $this->EE->uri->uri_string = '';      
     }
+    
   }
   
   /**
