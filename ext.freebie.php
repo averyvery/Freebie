@@ -13,21 +13,23 @@ class Freebie_ext {
    */
   var $name = 'Freebie';
 	var $description = 'Tell EE to ignore specific segments when routing URLs';	
-  var $version = '0.1';
+  var $version = '0.0.1';
   var $settings_exist = 'y';
-  var $docs_url = 'http://github.com/averyvery/Freebie';
+  var $docs_url = 'http://github.com/averyvery/Freebie#readme';
   
   /**
    * Settings
    */
   var $settings = array();
   var $settings_default = array(
-    'to_disappear'   => 'success|error|preview',
+    'to_ignore'      => 'success|error|preview',
+    'ignore_beyond'  => '',
     'remove_numbers' => 'no'
   );
 
   function settings(){
-    $settings['to_disappear']   = array('t', null, $this->settings_default['to_disappear']);
+    $settings['to_ignore']      = array('t', null, $this->settings_default['to_ignore']);
+    $settings['ignore_beyond']  = array('t', null, $this->settings_default['ignore_beyond']);
     $settings['remove_numbers'] = array('r', array('yes' => 'yes', 'no' => 'no'), 'no');
     return $settings;
   }
@@ -56,15 +58,14 @@ class Freebie_ext {
      $this->set_dirty_segments_as_global_vars();
 
      // prep the user settings to use for cleaning the URI
-     $this->parse_settings();           
+     $this->settings['to_ignore']     = $this->parse_settings($this->settings['to_ignore']);           
+     $this->settings['ignore_beyond'] = $this->parse_settings($this->settings['ignore_beyond']);           
 
      // remove the 'dirty' bits from the URI, which a user has specified in the settings
      $this->clean_uri();
    
      // re-fill the segment arrays from our new, clean URI
      $this->that_was_a_freebie();
-
-     // TODO-insert a stop if no segments are replaced
 
      // re-execute the routing based on clean segments
      $RTR =& load_class('Router', 'core');
@@ -76,7 +77,7 @@ class Freebie_ext {
     }
 
   }
-  
+    
   /**
    * check to see if the conditions are in place to run freebie
    */
@@ -84,20 +85,23 @@ class Freebie_ext {
     
            // is a URI? (lame test for checking to see if we're viewing the CP or not)
     return isset($this->EE->uri->uri_string) &&
-    
-           // no need to run on blank URIs
            $this->EE->uri->uri_string != '' &&
-           
+               
            // Freebie actually executes twice - but the second time,
            // the "settings" object isn't an array, which breaks it.
            // (No idea why). Checking type fixes this.
            gettype($this->settings) == 'array' &&
            
            // If the settings don't exist, don't check if they're blank
-           isset($this->settings['to_disappear']) &&
-           
-           // Are the settings blank?
-           $this->settings['to_disappear'] != '';
+           (
+             (
+               isset($this->settings['to_ignore']) &&        
+               $this->settings['to_ignore'] != ''
+             ) || (
+               isset($this->settings['ignore_beyond']) &&        
+               $this->settings['ignore_beyond'] != ''               
+             )
+           );
     
   }
   
@@ -114,15 +118,13 @@ class Freebie_ext {
   /**
    * translate user settings to stuff we can use in the code
    */
-  function parse_settings(){
+  function parse_settings($original_str){
 
-    $str = $this->settings['to_disappear'];
-    
     // convert newline- and space-delimited settings to pipe-delimited ones
-    $str = preg_replace('/(\n| )/', '|', $str, -1);
+    $str = preg_replace('/(\n| )/', '|', $original_str, -1);
 
     // turn *s into true regex wildcards
-    $this->settings['to_disappear'] = preg_replace('/\*/', '.*?', $str, -1);
+    return preg_replace('/\*/', '.*?', $str, -1);
 
   }
 
@@ -142,14 +144,21 @@ class Freebie_ext {
     
     // move any segments that don't match patterns to clean array
     foreach ($dirty_array as $segment){
-      if(!preg_match('#('.$this->settings['to_disappear'].')#', $segment)){
+      if(!preg_match('#('.$this->settings['to_ignore'].')#', $segment)){
+        
+        // if this segment isn't killed by the "no numbers" setting, 
+        // move it to the new array
         if(!$remove_numbers || !preg_match('/(\/[0-9]+|^[0-9]+)/', $segment)){
-          array_push($clean_array, $segment);          
+          array_push($clean_array, $segment);  
+          
+          // if this segment is one of the breakers, stop looping        
+          if(preg_match('#('.$this->settings['ignore_beyond'].')#', $segment)){
+            break;
+          }
         }
       }
     }
 
-    // reset the URI to our cleaned version - EE will need this for routing
     if(count($clean_array) != 0){
       $this->EE->uri->uri_string = implode('/', $clean_array);      
     } else {

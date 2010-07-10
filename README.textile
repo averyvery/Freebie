@@ -1,6 +1,6 @@
 h1. Freebie
 
-Freebie allows you to pick segment names that you want EE to completely ignore when routing. This throwing "success" messages after forms, creating "preview" pages, working with  "Structure":http://www.buildwithstructure.com, and much, much more.
+Tell EE to ignore certain segments when routing. This allows you to put useful segments in the URI without getting 404s, bad templates, or messing up the routing "Structure":http://www.buildwithstructure.com uses.
 
 Freebie is built to run in ExpressionEngine 2.0, and will 100% fail in anything lower. To install:
 
@@ -9,7 +9,7 @@ Freebie is built to run in ExpressionEngine 2.0, and will 100% fail in anything 
 
 h2. Usage
 
-Enter the segments you want to ignore on the extensions page in Addons > Extensions. You can use wildcards in your segment names! Examples:
+Enter the segments you want to ignore on the extensions page in Addons > Extensions. You can use wildcards in your segment names!
 
 h3. Basic Settings
 
@@ -27,7 +27,11 @@ The wildcard in @ju*@ means that both @june@ and @july@ will be freebie segments
 
 h3. Numbers
 
-You can also set an option to automatically ignore all number-only segments - this is useful for using urls like blog/2010/20/ in Structure.
+You can set an option to automatically ignore all number-only segments - this is useful for using urls like blog/2010/20/ in Structure.
+
+h3. Break Segments
+
+Break segments are entered just like Freebie segments, but instead of being ignored, break segments tell EE to ignore all FOLLOWING segments. Example: You're working in Structure, and want to use author urls and dates to control a blog, like so: /blog/lucille/2010/10. If you set "blog" as a break segment, you can throw whatever you want into the URI *after* this point without it affecting the template or page routing.
 
 h3. Templates
 
