@@ -35,11 +35,7 @@ Break segments are entered just like Freebie segments, but instead of being igno
 
 h3. Templates
 
-The *original* segments will be available in their standard form, as @{segment_1}@, @{segment_2}@, etc. For example, if your settings are @preview|*interns@ and the url is:
-
-@http://www.mysite.com/preview/about/2009interns/bios/@
-
-a {segment_3} tag will output '2009interns', even though that segment is being ignored by the rest of EE.
+The *original* segments will be available in their standard form, as @{segment_1}@, @{segment_2}@, etc. For example, if your settings are @preview|*interns@ and the url is /preview/about/2009interns/bios/, a @{segment_3}@ tag will output '2009interns', even though that segment is being ignored by the rest of EE.
 
 h1. Where Credit Is Due
 
