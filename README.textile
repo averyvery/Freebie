@@ -1,0 +1,44 @@
+Freebie is built to run in EE 2.0 ONLY.
+
+h2. What it Does
+
+Freebie allows you to pick a number of segment names that you want EE to completely ignore when routing. This is really helpful for analytics tracking, throwing "success" messages after forms, and creating "preview" pages to view unpublished entries. When you combine it with "Structure":http://www.buildwithstructure.com, things get CRAZY FUN.
+
+h2. Installation
+
+* Copy /third_party/vl_safesegments into your /system/expressionengine/third_party/ directory.
+* Go to Add-ons -> Extensions and "enable extension."
+
+h2. Use
+
+h3. In settings
+
+Enter the segments you want to ignore on the extensions page in Addons > Extensions. You can use wildcards in your segment names! Examples:
+
+@preview|success|error@
+
+@preview
+success
+error@
+
+@march|april|may|ju*|august@
+
+In the example, 'ju*' means that both 'june' and 'july' will be freebie segments.
+
+You can also set an option to automatically ignore all number-only segments - this is useful for displaying content at date-based urls, like /2010/10/5, while using modules like Structure, which use strict URI routing.
+
+h3. In templates
+
+The original segments will be available in their standard form, as @{segment_1}@, @{segment_2}@, etc. For example, if you url is:
+
+@http://www.mysite.com/preview/about/2009interns/bios/@
+
+and your segments are @preview|*interns@, the template returned will be
+
+@about/bios@
+
+but in that template, the segments variables will return 1->preview, 2->about, 3->2009interns, 4->bios.
+
+h2. Where Credit Is Due
+
+I only made this extension after using Leevi Graham's "NSM Safe Segments":http://github.com/newism/nsm.safe_segments.ee_addon for a loooong time and missing it dearly in EE 2.0. The idea is all Leevi Graham's, and 90% of the implementation is just EE core code copied out and repurposed.
