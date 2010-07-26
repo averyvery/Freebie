@@ -144,7 +144,7 @@ class Freebie_ext {
     
     // move any segments that don't match patterns to clean array
     foreach ($dirty_array as $segment){
-      if(!preg_match('#('.$this->settings['to_ignore'].')#', $segment)){
+      if(!preg_match('#^('.$this->settings['to_ignore'].')$#', $segment)){
         
         // if this segment isn't killed by the "no numbers" setting, 
         // move it to the new array
