@@ -198,6 +198,14 @@ class Freebie_ext {
     $this->EE->db->insert('exp_extensions', $data);
           
   }
+  
+  /**
+   * On save, clear the cached DB table
+   */
+  function save_settings()
+  {
+    $this->EE->clear_caching('ee');
+  }
 
   /**
    * Delete extension
