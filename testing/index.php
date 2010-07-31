@@ -147,6 +147,11 @@ break
         '_freebie_test/888/page' : '_freebie_page',
         '_freebie_test/page/888' : '_freebie_page',        
         
+        // testing freebie:any
+        '_freebie_test/any/' : 'false',
+        '_freebie_test/any/one/' : 'true',
+        '_freebie_test/any/two/one/' : 'true',
+        
         // all together now
         'one/siiiiix/_freebie_test/page/two/break/sandwiches/explosions' : '_freebie_page'
         

@@ -7,13 +7,30 @@ Freebie is built to run in ExpressionEngine 2.0, and will 100% fail in anything 
 * Copy freebie into your /system/expressionengine/third_party/ directory.
 * Go to Add-ons -> Extensions and "Enable extension."
 
-h2. Usage
+h2. Template Tags
 
-Enter the segments you want to ignore on the extensions page in Addons > Extensions. You can use wildcards in your segment names!
+Inside a template, you can access the actual URL segments using the variables @{freebie_1}, {freebie_2}@, etc. These will return the segments you see in your browser's location bar &mdash; however, if you use @{segment_1}@ instead, you'll get back the segments EE is actually parsing. For example, if you set "preview" and "comments" as Freebie segments, and visit...
 
-*A note about using segments in templates:* Due to the way EE is handling Freebie's segments, the bracketless syntax (@{if segment_1 == 'blog'}@) won't work. Instead, you'll need to compare segments more explicitly as strings, like so:
+*/blog/preview/my-favorite-post/comments/*
 
-@{if "{segment_1}" == "blog"}@
+...your template vars will return the following:
+
+{segment_1} == blog
+{segment_2} == my-favorite-post
+{freebie_1} == blog
+{freebie_2} == preview
+{freebie_3} == my-favorite-post
+{freebie_4} == comments
+
+You can also use {exp:freebie:any name="segment_name"} to see if any segment — freebie or no — matches the "name" string. Example:
+
+*/blog/preview/my-favorite-post/comments/*
+
+@{exp:freebie:any name="blog"} == "true"@
+
+@{if {exp:freebie:any name="comments"} == "true"}<h2>Show comments</h2>{/if}@
+
+h2. Settings
 
 h3. Basic Settings
 
