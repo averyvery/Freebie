@@ -111,11 +111,7 @@ class Freebie_ext {
   function set_dirty_segments_as_global_vars(){
     $segments = $this->EE->uri->segments;
     for ($i = 1; $i <= count($segments); $i++){
-
-      $this->EE->TMPL->segment_vars['segment_'.$i] = $segments[$i];
       $this->EE->config->_global_vars['segment_'.$i] = $segments[$i];      
-      $this->EE->uri->segments[$i] = $segments[$i];
-
     }
   }
   
