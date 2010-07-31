@@ -13,7 +13,7 @@ class Freebie_ext {
    */
   var $name = 'Freebie';
 	var $description = 'Tell EE to ignore specific segments when routing URLs';	
-  var $version = '0.0.1';
+  var $version = '0.0.2';
   var $settings_exist = 'y';
   var $docs_url = 'http://github.com/averyvery/Freebie#readme';
   
@@ -111,7 +111,11 @@ class Freebie_ext {
   function set_dirty_segments_as_global_vars(){
     $segments = $this->EE->uri->segments;
     for ($i = 1; $i <= count($segments); $i++){
-      $this->EE->config->_global_vars['segment_'.$i] = $segments[$i];
+
+      $this->EE->TMPL->segment_vars['segment_'.$i] = $segments[$i];
+      $this->EE->config->_global_vars['segment_'.$i] = $segments[$i];      
+      $this->EE->uri->segments[$i] = $segments[$i];
+
     }
   }
   
@@ -141,11 +145,14 @@ class Freebie_ext {
     // did user set 'remove numbers' to 'yes'?
     $remove_numbers = isset($this->settings['remove_numbers']) &&
                       $this->settings['remove_numbers'] == 'yes';
-    
+
+
     // move any segments that don't match patterns to clean array
     foreach ($dirty_array as $segment){
-      if(!preg_match('#^('.$this->settings['to_ignore'].')$#', $segment)){
-        
+      
+      $break = false;
+
+      if( ! preg_match('#^('.$this->settings['to_ignore'].')$#', $segment ) && $break == false ){
         // if this segment isn't killed by the "no numbers" setting, 
         // move it to the new array
         if(!$remove_numbers || !preg_match('/(\/[0-9]+|^[0-9]+)/', $segment)){
@@ -153,12 +160,12 @@ class Freebie_ext {
           
           // if this segment is one of the breakers, stop looping        
           if(preg_match('#('.$this->settings['ignore_beyond'].')#', $segment)){
-            break;
+            $break = true;
           }
         }
       }
     }
-
+        
     if(count($clean_array) != 0){
       $this->EE->uri->uri_string = implode('/', $clean_array);      
     } else {
