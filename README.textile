@@ -11,6 +11,10 @@ h2. Usage
 
 Enter the segments you want to ignore on the extensions page in Addons > Extensions. You can use wildcards in your segment names!
 
+*A note about using segments in templates:* Due to the way EE is handling Freebie's segments, the bracketless syntax (@{if segment_1 == 'blog'}@) won't work. Instead, you'll need to compare segments more explicitly as strings, like so:
+
+@{if "{segment_1}" == "blog"}@
+
 h3. Basic Settings
 
 @preview|success|error@
