@@ -56,4 +56,4 @@ Break segments are entered just like Freebie segments, but instead of being igno
 
 h1. Where Credit Is Due
 
-I only made this extension after using Leevi Graham's "NSM Safe Segments":http://github.com/newism/nsm.safe_segments.ee_addon for a loooong time and missing it dearly in EE 2.0. Once I got started, I had to work in the number setting, and the wildcard was a last-minute gimme.
+I only made this extension after using Leevi Graham's "NSM Safe Segments":http://github.com/newism/nsm.safe_segments.ee_addon for a loooong time and missing it dearly in EE 2.0. Once I got started, I just kept adding features that we've had a need for at Viget from time to time.
