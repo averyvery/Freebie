@@ -9,7 +9,7 @@ Freebie is built to run in ExpressionEngine 2.0, and will 100% fail in anything 
 
 h2. Template Tags
 
-Inside a template, you can access the actual URL segments using the variables @{freebie_1}, {freebie_2}@, etc. These will return the segments you see in your browser's location bar &mdash; however, if you use @{segment_1}@ instead, you'll get back the segments EE is actually parsing. For example, if you set "preview" and "comments" as Freebie segments, and visit...
+Inside a template, you can access the original, un-effed-with URL segments using @{freebie_1}, {freebie_2}@, etc. These will return the segments you see in your browser's location bar &mdash; however, if you use @{segment_1}@ instead, you'll get back the segments EE is actually parsing. For example, if you set "preview" and "comments" as Freebie segments, and visit...
 
 */blog/preview/my-favorite-post/comments/*
 
@@ -53,10 +53,6 @@ You can set an option to automatically ignore all number-only segments - this is
 h3. Break Segments
 
 Break segments are entered just like Freebie segments, but instead of being ignored, break segments tell EE to ignore all *following* segments. Example: You're working in Structure, and want to use author urls and dates to control a blog, like so: /blog/lucille/2010/10. If you set "blog" as a break segment, you can throw whatever you want into the URI *after* this point without it affecting the template or page routing.
-
-h3. Templates
-
-The *original* segments will be available in their standard form, as @{segment_1}@, @{segment_2}@, etc. For example, if your settings are @preview|*interns@ and the url is /preview/about/2009interns/bios/, a @{segment_3}@ tag will output '2009interns', even though that segment is being ignored by the rest of EE.
 
 h1. Where Credit Is Due
 
