@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss 
-  version="2.0"
-  xmlns:ee_addon="http://expressionengine-addons.com/nsm_addon_updater"
->
+<rss version="2.0" xmlns:ee_addon="http://expressionengine-addons.com/nsm_addon_updater">
   <channel>
     <title>NSM Addon Updater Changelog</title>
     <link>http://site.com/nsm_addon_updater/appcast.xml</link>
@@ -20,7 +17,7 @@
       ]]></description>
       <enclosure 
         url="http://github.com/averyvery/Freebie/zipball/master"
-        length="11092" TODO
+        length="11092"
         type="application/zip"
       />
     </item>
