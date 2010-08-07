@@ -32,7 +32,7 @@ You can also use {exp:freebie:any name="segment_name"} to see if any segment —
 
 h2. Settings
 
-h3. Basic Settings
+h3. Basic settings
 
 @preview|success|error@
 
@@ -50,10 +50,14 @@ h3. Numbers
 
 You can set an option to automatically ignore all number-only segments - this is useful for using urls like blog/2010/20/ in Structure.
 
-h3. Break Segments
+h3. Break segments
 
 Break segments are entered just like Freebie segments, but instead of being ignored, break segments tell EE to ignore all *following* segments. Example: You're working in Structure, and want to use author urls and dates to control a blog, like so: /blog/lucille/2010/10. If you set "blog" as a break segment, you can throw whatever you want into the URI *after* this point without it affecting the template or page routing.
 
-h1. Where Credit Is Due
+h3. Break on category URL indicator
+
+If you set this option, Freebie will automatically ignore your category URL indicator and any segments past it.
+
+h1. Where credit is due
 
 I only made this extension after using Leevi Graham's "NSM Safe Segments":http://github.com/newism/nsm.safe_segments.ee_addon for a loooong time and missing it dearly in EE 2.0. Once I got started, I just kept adding features that we've had a need for at Viget from time to time.
