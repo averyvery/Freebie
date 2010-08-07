@@ -1,8 +1,8 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:ee_addon="http://expressionengine-addons.com/nsm_addon_updater">
   <channel>
     <title>Freebie Release Notes</title>
-    <link>http://github.com/averyvery/Freebie/blob/master/xml/nsm_addon_updater.xml</link>
-    <atom:link href="http://github.com/averyvery/Freebie/blob/master/xml/nsm_addon_updater.xml" rel="self" type="application/rss+xml" /> 
+    <link>http://github.com/averyvery/Freebie/raw/master/rss/nsm_addon_updater.rss</link>
+    <atom:link href="http://github.com/averyvery/Freebie/raw/master/rss/nsm_addon_updater.rss" rel="self" type="application/rss+xml" /> 
     <description>Freebie Release Notes</description>
     <item>
       <title>Freebie 0.0.9</title>
