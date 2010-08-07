@@ -32,7 +32,14 @@ $lang = array(
                         will process as about/<strong>map</strong> if you set <strong>map</strong> 
                         as a breaking segment</p>',
                         
+  'break_category' => '<h4>Break on category URL indicator </h4>
+                         <p style="font-weight: normal">
+                         Set the URL indicator 
+                         <a href="'.BASE.'&C=admin_content&M=global_channel_preferences">here</a>
+                       </p>',
+                                               
   'remove_numbers' => '<h4>Ignore numeric segments </h4>
                          <p style="font-weight: normal">
                          Examples: /2010/, /2/, /101/</p>'
+                      
 );

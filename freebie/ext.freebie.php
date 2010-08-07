@@ -13,7 +13,8 @@ class Freebie_ext {
    */
   var $name = 'Freebie';
   var $description = 'Tell EE to ignore specific segments when routing URLs'; 
-  var $version = '0.0.2';
+  var $version = '0.0.3';
+  var $config['nsm_addon_updater']['versions_xml'] = 'http://www.averyvery.com/development/freebie/nsm_addon_updater.xml';
   var $settings_exist = 'y';
   var $docs_url = 'http://github.com/averyvery/Freebie#readme';
   
@@ -24,14 +25,18 @@ class Freebie_ext {
   var $settings_default = array(
     'to_ignore'      => 'success|error|preview',
     'ignore_beyond'  => '',
+    'break_category' => 'no',
     'remove_numbers' => 'no'
   );
 
   function settings(){
     $settings['to_ignore']      = array('t', null, $this->settings_default['to_ignore']);
     $settings['ignore_beyond']  = array('t', null, $this->settings_default['ignore_beyond']);
+    $settings['break_category'] = array('r', array('yes' => 'yes', 'no' => 'no'),   
+                                         $this->settings_default['break_category']);
     $settings['remove_numbers'] = array('r', array('yes' => 'yes', 'no' => 'no'),   
                                          $this->settings_default['remove_numbers']);
+                                         
     return $settings;
   }
 
@@ -63,6 +68,9 @@ class Freebie_ext {
      // prep the user settings to use for cleaning the URI
      $this->settings['to_ignore']     = $this->parse_settings($this->settings['to_ignore']);           
      $this->settings['ignore_beyond'] = $this->parse_settings($this->settings['ignore_beyond']);           
+
+     // if category breaking is on, retrieve the category url indicator and set it as a break segment
+     $this->break_on_category_indicator();
 
      // remove the 'dirty' bits from the URI, which a user has specified in the settings
      $this->clean_uri();
@@ -163,6 +171,23 @@ class Freebie_ext {
   }
 
   /**
+   * add the category url indicator to the "break" array
+   */  
+  function break_on_category_indicator(){
+        
+    // did user set 'break category' to 'yes'?
+    $break_category = isset( $this->settings['break_category'] ) &&
+                      $this->settings['break_category'] == 'yes' &&
+                      $this->EE->config->config['use_category_name'] == 'y';
+
+    if ( $break_category ) {
+      $this->settings['to_ignore']     .= '|'.$this->EE->config->config['reserved_category_word'];
+      $this->settings['ignore_beyond'] .= '|'.$this->EE->config->config['reserved_category_word'];
+    }
+        
+  }
+
+  /**
    * remove segments, based on the user's settings
    */  
   function clean_uri(){
@@ -181,20 +206,22 @@ class Freebie_ext {
 
     // move any segments that don't match patterns to clean array
     foreach ($dirty_array as $segment){
-      
+                  
       if( ! preg_match('#^('.$this->settings['to_ignore'].')$#', $segment ) && $break == false ){
-        
+                
         // if this segment isn't killed by the "no numbers" setting, 
         // move it to the new array
         if(!$remove_numbers || !preg_match('/(\/[0-9]+|^[0-9]+)/', $segment)){
           array_push($clean_array, $segment);  
-          
-          // if this segment is one of the breakers, stop looping        
-          if(preg_match('#('.$this->settings['ignore_beyond'].')#', $segment)){
-            $break = true;
-          }
         }
+                        
+      } 
+      
+      // if this segment is one of the breakers, stop looping        
+      if( preg_match('#^('.$this->settings['ignore_beyond'].')$#', $segment) ){
+        $break = true;
       }
+      
     }
                 
     if(count($clean_array) != 0){
@@ -202,7 +229,7 @@ class Freebie_ext {
     } else {
       $this->EE->uri->uri_string = '';      
     }
-        
+            
   }
     
   /**
