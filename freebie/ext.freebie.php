@@ -14,7 +14,6 @@ class Freebie_ext {
   var $name = 'Freebie';
   var $description = 'Tell EE to ignore specific segments when routing URLs'; 
   var $version = '0.0.3';
-  var $config['nsm_addon_updater']['versions_xml'] = 'http://www.averyvery.com/development/freebie/nsm_addon_updater.xml';
   var $settings_exist = 'y';
   var $docs_url = 'http://github.com/averyvery/Freebie#readme';
   
