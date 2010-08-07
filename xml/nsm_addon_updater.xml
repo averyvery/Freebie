@@ -8,9 +8,9 @@
     <link>http://site.com/nsm_addon_updater/appcast.xml</link>
     <description>Most recent changes with links to updates.</description>
     <item>
-      <title>Version 0.0.3</title>
+      <title>Version 0.0.9</title>
       <!-- Additional tag required for NSM Addon Updater -->
-      <ee_addon:version>0.0.3</ee_addon:version>
+      <ee_addon:version>0.0.9</ee_addon:version>
       <link>http://github.com/averyvery/Freebie</link>
       <pubDate>Fri, 06 Aug 2010 20:00:00 +0000</pubDate>
       <description><![CDATA[
