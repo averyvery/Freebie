@@ -13,7 +13,7 @@ class Freebie_ext {
    */
   var $name = 'Freebie';
   var $description = 'Tell EE to ignore specific segments when routing URLs'; 
-  var $version = '0.0.3';
+  var $version = '0.0.4';
   var $settings_exist = 'y';
   var $docs_url = 'http://github.com/averyvery/Freebie#readme';
   
@@ -151,8 +151,9 @@ class Freebie_ext {
    */
   function set_dirty_segments_as_global_vars(){
     $segments = $this->EE->uri->segments;
+    $segments = array_pad($segments, 10, '');
     for ($i = 1; $i <= count($segments); $i++){
-      $this->EE->config->_global_vars['freebie_'.$i] = $segments[$i];      
+      $this->EE->config->_global_vars['freebie_'.$i] = $segments[$i - 1];      
     }
   }
   

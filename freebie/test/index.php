@@ -151,6 +151,10 @@
         '_freebie_test/any/' : 'false',
         '_freebie_test/any/one/' : 'true',
         '_freebie_test/any/two/one/' : 'true',
+
+        // testing blank freebie tags
+        '_freebie_test/tags/one/' : '',
+        '_freebie_test/tags/one/two/' : 'two',
         
         // all together now
         'one/siiiiix/_freebie_test/page/two/break/sandwiches/explosions' : '_freebie_page'
