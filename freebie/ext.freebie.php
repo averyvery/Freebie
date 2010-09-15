@@ -13,7 +13,7 @@ class Freebie_ext {
    */
   var $name = 'Freebie';
   var $description = 'Tell EE to ignore specific segments when routing URLs'; 
-  var $version = '0.0.4';
+  var $version = '0.0.5';
   var $settings_exist = 'y';
   var $docs_url = 'http://github.com/averyvery/Freebie#readme';
   
@@ -57,6 +57,9 @@ class Freebie_ext {
       // clear cache if necessary
       $this->clear_cache();
       
+      // strips out any & variables
+      $this->strip_variables();
+      
      /**
       * EE 2.0 relies on an internal array of segments for routing
       *   we'll be 'cleaning' our URI and producing shiny new segments from it,
@@ -65,8 +68,8 @@ class Freebie_ext {
      $this->set_dirty_segments_as_global_vars();
 
      // prep the user settings to use for cleaning the URI
-     $this->settings['to_ignore']     = $this->parse_settings($this->settings['to_ignore']);           
-     $this->settings['ignore_beyond'] = $this->parse_settings($this->settings['ignore_beyond']);           
+     $this->settings['to_ignore']     = $this->parse_settings($this->settings['to_ignore']);
+     $this->settings['ignore_beyond'] = $this->parse_settings($this->settings['ignore_beyond']);
 
      // if category breaking is on, retrieve the category url indicator and set it as a break segment
      $this->break_on_category_indicator();
@@ -94,7 +97,7 @@ class Freebie_ext {
    */
   function should_execute(){
     
-           // is a URI? (lame test for checking to see if we're viewing the CP or not)
+    // is a URI? (lame test for checking to see if we're viewing the CP or not)
     return isset($this->EE->uri->uri_string) &&
            $this->EE->uri->uri_string != '' &&
                
@@ -113,6 +116,31 @@ class Freebie_ext {
                $this->settings['ignore_beyond'] != ''               
              )
            );
+    
+  }
+  
+  /**
+   * Remove any variables from the segments
+   */
+  function strip_variables(){
+
+    $get_pattern = '#&.*?$#';
+    $to_match = $this->EE->uri->uri_string;
+    $matches = array();
+    
+    preg_match( $get_pattern, $to_match, $matches); 
+    $get_vars_unparsed = substr( $matches[0], 1 );
+    $get_vars_parsed = explode('&', $get_vars_unparsed);
+    
+    foreach($get_vars_parsed as $var) {
+      $var = explode('=', $var);
+      $key = $var[0];
+      $val = ( isset( $var[1] ) ) ? $var[1] : true;
+      $_GET[$key] = $val;
+    }
+                    
+    // remove them from the URI string
+    $this->EE->uri->uri_string = preg_replace('#&.*?$#', '', $to_match); 
     
   }
   
@@ -223,7 +251,7 @@ class Freebie_ext {
       }
       
     }
-                
+                    
     if(count($clean_array) != 0){
       $this->EE->uri->uri_string = implode('/', $clean_array);      
     } else {
