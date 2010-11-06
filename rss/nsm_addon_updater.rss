@@ -12,7 +12,9 @@
       <pubDate>Wed, 15 Sep 2010 08:00:00 +0000</pubDate>
       <description><![CDATA[
         <ul>
-          <li>Fixed handling of GET variables, compatibility for Super Search.</li>
+          <li>New utility methods for numeric and category segments</li>
+          <li>No longer breaks "member" functionality</li>
+          <li>Added the "always parse" field</li>
         </ul>
       ]]></description>
     </item>

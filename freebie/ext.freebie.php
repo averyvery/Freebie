@@ -13,7 +13,7 @@ class Freebie_ext {
    */
   var $name = 'Freebie';
   var $description = 'Tell EE to ignore specific segments when routing URLs'; 
-  var $version = '0.0.5';
+  var $version = '0.0.4';
   var $settings_exist = 'y';
   var $docs_url = 'http://github.com/averyvery/Freebie#readme';
   
@@ -25,7 +25,8 @@ class Freebie_ext {
     'to_ignore'      => 'success|error|preview',
     'ignore_beyond'  => '',
     'break_category' => 'no',
-    'remove_numbers' => 'no'
+    'remove_numbers' => 'no',
+    'always_parse'   => ''
   );
 
   function settings(){
@@ -34,8 +35,8 @@ class Freebie_ext {
     $settings['break_category'] = array('r', array('yes' => 'yes', 'no' => 'no'),   
                                          $this->settings_default['break_category']);
     $settings['remove_numbers'] = array('r', array('yes' => 'yes', 'no' => 'no'),   
-                                         $this->settings_default['remove_numbers']);
-                                         
+                                         $this->settings_default['remove_numbers']);                                         
+    $settings['always_parse']   = array('t', null, $this->settings_default['always_parse']);
     return $settings;
   }
 
@@ -73,6 +74,9 @@ class Freebie_ext {
 
      // if category breaking is on, retrieve the category url indicator and set it as a break segment
      $this->break_on_category_indicator();
+     
+     // determine which segments to ALWAYS parse, and to always parse beyond
+     $this->get_always_parse();
 
      // remove the 'dirty' bits from the URI, which a user has specified in the settings
      $this->clean_uri();
@@ -214,6 +218,16 @@ class Freebie_ext {
     }
         
   }
+  
+  /**
+   * get specific segments that we ALWAYS want to parse, and to parse beyond
+   */  
+  function get_always_parse(){
+
+    $this->settings['always_parse'] .= '|' . $this->EE->config->config['profile_trigger'];
+        
+  }
+  
 
   /**
    * remove segments, based on the user's settings
@@ -229,35 +243,49 @@ class Freebie_ext {
     $remove_numbers = isset($this->settings['remove_numbers']) &&
                       $this->settings['remove_numbers'] == 'yes';
 
-
     $break = false;
+    $parse_all_remaining = false;
 
     // move any segments that don't match patterns to clean array
     foreach ($dirty_array as $segment){
+
+      $is_not_a_always_parse_segment = 
+        preg_match('#^('.$this->settings['always_parse'].')$#', $segment ) == false;
                   
-      if( ! preg_match('#^('.$this->settings['to_ignore'].')$#', $segment ) && $break == false ){
-                
-        // if this segment isn't killed by the "no numbers" setting, 
-        // move it to the new array
-        if(!$remove_numbers || !preg_match('/(\/[0-9]+|^[0-9]+)/', $segment)){
-          array_push($clean_array, $segment);  
+      if( $is_not_a_always_parse_segment && $parse_all_remaining == false ){
+
+        $should_be_ignored = preg_match('#^('.$this->settings['to_ignore'].')$#', $segment ) == false;
+
+        if( $should_be_ignored && $break == false ){
+
+          // if this segment isn't killed by the "no numbers" setting, 
+          // move it to the new array
+          if(!$remove_numbers || !preg_match('/(\/[0-9]+|^[0-9]+)/', $segment)){
+            array_push($clean_array, $segment);  
+          }
+
+        } 
+
+        // if this segment is one of the breakers, stop looping        
+        if( preg_match('#^('.$this->settings['ignore_beyond'].')$#', $segment) ){
+          $break = true;
         }
-                        
-      } 
-      
-      // if this segment is one of the breakers, stop looping        
-      if( preg_match('#^('.$this->settings['ignore_beyond'].')$#', $segment) ){
-        $break = true;
+
+      } else {
+
+        array_push( $clean_array, $segment );  
+        $parse_all_remaining = true;
+
       }
       
-    }
+    } 
                     
     if(count($clean_array) != 0){
       $this->EE->uri->uri_string = implode('/', $clean_array);      
     } else {
       $this->EE->uri->uri_string = '';      
     }
-            
+                
   }
     
   /**

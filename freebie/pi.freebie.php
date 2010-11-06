@@ -43,6 +43,35 @@ class Freebie
     return $match;
   }
   
+  function is_number()
+  {
+    $this->EE =& get_instance();    
+    $match = 'false';
+    $i = $this->EE->TMPL->fetch_param('segment');
+    $freebie_seg = $this->EE->config->_global_vars['freebie_'.$i];
+      
+    if ( is_numeric( $freebie_seg ) ) {
+      $match = 'true';
+    }
+    
+    return $match;
+  }
+  
+  function category_id()
+  {
+    $this->EE =& get_instance();    
+    $match = '';
+    $segment = $this->EE->TMPL->fetch_param('segment');
+    $category_url = $this->EE->config->_global_vars['freebie_'.$segment];
+
+   $query = mysql_query("SELECT cat_id, cat_name FROM exp_categories WHERE cat_url_title = '$category_url'");
+   while( $row = mysql_fetch_assoc( $query ) ) {
+      $match = $row['cat_id'];
+   }		
+    
+    return $match;
+  }
+  
 
 
   // --------------------------------------------------------------------

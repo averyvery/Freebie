@@ -40,6 +40,11 @@ $lang = array(
                                                
   'remove_numbers' => '<h4>Ignore numeric segments </h4>
                          <p style="font-weight: normal">
-                         Examples: /2010/, /2/, /101/</p>'
+                         Examples: /2010/, /2/, /101/</p>',
+
+  'always_parse' => '<h4>Always Parse:</h4>
+                         <p style="font-weight: normal">
+                           If you have segments you NEVER want Freebie to screw with, set them here.
+                           (Example: search)</p>'
                       
 );

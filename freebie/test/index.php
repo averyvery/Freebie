@@ -62,7 +62,7 @@
     <div class="settings">
       <div class="setting">
         <p><strong>Freebie segments:</strong>
-          one|two|three|four|f*|s*x|*ven</p>
+          one|two|three|four|f*|s*x|*ven|parse</p>
       </div>
       <div class="setting">
         <p><strong>Break segments:</strong>
@@ -75,8 +75,10 @@
         <p><strong>Category Url Indicator:</strong> category</p>
       </div>
       <div class="setting">
-        <p><strong>Ignore numeric segments:</strong> Yes</p>
-        
+        <p><strong>Ignore numeric segments:</strong> Yes</p>        
+      </div>
+      <div class="setting">
+        <p><strong>Always parse:</strong> parse</p>        
       </div>
     </div>
     
@@ -93,7 +95,6 @@
     </script>
     
     <script type="text/javascript" src="jquery.xdomainajax.js"></script>
-    
     
     <script type="text/javascript">
 
@@ -138,7 +139,6 @@
         '_freebie_test/category' : '_freebie_test',
         '_freebie_test/category/page' : '_freebie_test',
         '_freebie_test/category/sandwich/nonsense' : '_freebie_test',        
-        '/category/sandwich/nonsense' : '_freebie_index',        
                 
         // simple numeric test
         '_freebie_test/888' : '_freebie_test',
@@ -155,15 +155,44 @@
         // testing blank freebie tags
         '_freebie_test/tags/one/' : '',
         '_freebie_test/tags/one/two/' : 'two',
+
+        // URLs with extra parameters
+        '_freebie_test/search&keywords=foo+bar' : '_freebie_test',
+        '_freebie_test/search&keywords=foo+bar&sandwiches=false' : '_freebie_test',
+        '_freebie_test/search&keywords=foo+bar&rice' : '_freebie_test',
+        '_freebie_test/search&keywords=foo+bar&rice&sandwiches=false' : '_freebie_test',
         
         // all together now
-        'one/siiiiix/_freebie_test/page/two/break/sandwiches/explosions' : '_freebie_page'
+        'one/siiiiix/_freebie_test/page/two/break/sandwiches/explosions' : '_freebie_page',
+
+        // make sure members is NOT being ignored
+        'member/profile' : 'Your Control Panel',
+        'member/1' : 'admin',
+        
+        // check if number
+        '_freebie_test/numbers/88/' : 'false/true',
+        '_freebie_test/numbers/any/' : 'false/false',
+
+        // get category ids from strings
+        '_freebie_test/categories/one/' : '1',
+        '_freebie_test/categories/two/' : '2',
+        '_freebie_test/categories/three/' : '',
+        
+        // always_parse
+        '_freebie_test/parse/' : 'Parsed!'
         
       }
       
       function output ( type, url, html ) {
-        var feedback, feedback_class, feedback_start, feedback_end;
-        if ( urls[ url ] == html ) {
+
+        var 
+          feedback, 
+          feedback_class, 
+          feedback_start, 
+          feedback_end,
+          text_found = html.indexOf( urls[ url ] ) != -1
+        
+        if ( text_found ) {
           feedback = 'successful!';
           feedback_class = 'success';
         } else if ( type == 'success' ){
