@@ -13,7 +13,7 @@ class Freebie_ext {
    */
   var $name = 'Freebie';
   var $description = 'Tell EE to ignore specific segments when routing URLs'; 
-  var $version = '0.0.4';
+  var $version = '0.0.5';
   var $settings_exist = 'y';
   var $docs_url = 'http://github.com/averyvery/Freebie#readme';
   
