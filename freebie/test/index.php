@@ -157,10 +157,12 @@
         '_freebie_test/tags/one/two/' : 'two',
 
         // URLs with extra parameters
-        '_freebie_test/search&keywords=foo+bar' : '_freebie_test',
-        '_freebie_test/search&keywords=foo+bar&sandwiches=false' : '_freebie_test',
-        '_freebie_test/search&keywords=foo+bar&rice' : '_freebie_test',
-        '_freebie_test/search&keywords=foo+bar&rice&sandwiches=false' : '_freebie_test',
+        '_freebie_test/search&keywords=foo+bar' : '_freebie_testsearch',
+        '_freebie_test/search&keywords=foo+bar&sandwiches=false' : '_freebie_testsearch',
+        '_freebie_test/search&keywords=foo+bar&rice' : '_freebie_testsearch',
+        '_freebie_test/search&keywords=foo+bar&rice&sandwiches=false' : '_freebie_testsearch',
+        '_freebie_test/search/&keywords=foo+bar&rice&sandwiches=false' : '_freebie_testsearch',
+        '?keywords=foo+bar&rice&sandwiches=false' : 'index',
         
         // all together now
         'one/siiiiix/_freebie_test/page/two/break/sandwiches/explosions' : '_freebie_page',
@@ -174,8 +176,8 @@
         '_freebie_test/numbers/any/' : 'false/false',
 
         // get category ids from strings
-        '_freebie_test/categories/one/' : '1',
-        '_freebie_test/categories/two/' : '2',
+        '_freebie_test/categories/one/' : '11',
+        '_freebie_test/categories/two/' : '22',
         '_freebie_test/categories/three/' : '',
         
         // always_parse

@@ -13,7 +13,7 @@ class Freebie_ext {
    */
   var $name = 'Freebie';
   var $description = 'Tell EE to ignore specific segments when routing URLs'; 
-  var $version = '0.0.5';
+  var $version = '0.0.6';
   var $settings_exist = 'y';
   var $docs_url = 'http://github.com/averyvery/Freebie#readme';
   
@@ -128,23 +128,45 @@ class Freebie_ext {
    */
   function strip_variables(){
 
-    $get_pattern = '#&.*?$#';
+    // Break it down: (^[^(/|=|\\?|&)]*=|(\\?|&)).*?$
+    $get_pattern = '#';
+      $get_pattern .= '(';                // open either block
+                                            // match an entire string if there's an equal sign and no & or ?
+        $get_pattern .= '^';                // start matching at beginning of line
+        $get_pattern .= '[^(\\?|=|\&)]';       // match characters that aren't /, =, ?, or &
+        $get_pattern .= '*=';               // keep matching until you hit =
+      $get_pattern .= '|';                // or
+        $get_pattern .= '(\\?|\&)';             // match the first ? or &
+      $get_pattern .= ')';                // close either block
+    $get_pattern .= '.*?$';               // match until end of string
+    $get_pattern .= '#';
+    
     $to_match = $this->EE->uri->uri_string;
     $matches = array();
+    preg_match( $get_pattern, $to_match, $matches);
     
-    preg_match( $get_pattern, $to_match, $matches); 
-    $get_vars_unparsed = substr( $matches[0], 1 );
-    $get_vars_parsed = explode('&', $get_vars_unparsed);
-    
-    foreach($get_vars_parsed as $var) {
-      $var = explode('=', $var);
-      $key = $var[0];
-      $val = ( isset( $var[1] ) ) ? $var[1] : true;
-      $_GET[$key] = $val;
-    }
-                    
-    // remove them from the URI string
-    $this->EE->uri->uri_string = preg_replace('#&.*?$#', '', $to_match); 
+    if ( isset( $matches[0] ) ) {
+
+      if( substr( $matches[0], 0, 1 ) == '&' ) {
+        $matches[0] = substr( $matches[0], 1 );
+      }
+      $get_vars_parsed = explode('&', $matches[0]);
+
+      foreach($get_vars_parsed as $var) {
+        $var = explode('=', $var);
+        $key = $var[0];
+        $val = ( isset( $var[1] ) ) ? $var[1] : '';
+        $_GET[$key] = $val;
+      }
+
+      // remove them from the URI string and segments
+      $this->EE->uri->uri_string = preg_replace($get_pattern, '', $to_match);
+
+      for ($i = 1; $i <= count($this->EE->uri->segments); $i++){
+        $this->EE->uri->segments[ $i ] = preg_replace($get_pattern, '', $this->EE->uri->segments[ $i ]);
+      }
+
+    } 
     
   }
   
