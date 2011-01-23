@@ -13,7 +13,7 @@ class Freebie_ext {
 	 */
 	var $name = 'Freebie';
 	var $description = 'Tell EE to ignore specific segments when routing URLs'; 
-	var $version = '0.0.7';
+	var $version = '0.0.8';
 	var $settings_exist = 'y';
 	var $docs_url = 'http://github.com/averyvery/Freebie#readme';
 	
@@ -112,19 +112,8 @@ class Freebie_ext {
 					 // Freebie actually executes twice - but the second time,
 					 // the "settings" object isn't an array, which breaks it.
 					 // (No idea why). Checking type fixes this.
-					 gettype($this->settings) == 'array' &&
+					 gettype($this->settings) == 'array';
 					 
-					 // If the settings don't exist, don't check if they're blank
-					 (
-						 (
-							 isset($this->settings['to_ignore']) &&				 
-							 $this->settings['to_ignore'] != ''
-						 ) || (
-							 isset($this->settings['ignore_beyond']) &&				 
-							 $this->settings['ignore_beyond'] != ''								
-						 )
-					 );
-		
 	}
 	
 	/**

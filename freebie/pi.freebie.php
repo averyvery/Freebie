@@ -4,7 +4,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 $plugin_info = array(
 	'pi_name' => 'Freebie',
-	'pi_version' => '0.0.7',
+	'pi_version' => '0.0.8',
 	'pi_author' => 'Doug Avery',
 	'pi_author_url' => 'http://github.com/averyvery/Freebie#readme',
 	'pi_description' => 'Check against any freebie segment',

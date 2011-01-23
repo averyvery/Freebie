@@ -72,15 +72,16 @@
 				<p><strong>Break on category URL indicator:</strong> Yes</p>
 			</div>
 			<div class="setting">
-				<p><strong>Category Url Indicator:</strong> category</p>
-			</div>
-			<div class="setting">
 				<p><strong>Ignore numeric segments:</strong> Yes</p>				
 			</div>
 			<div class="setting">
 				<p><strong>Always parse:</strong> parse</p>				 
 			</div>
 		</div>
+
+		<h3>Categories</h3>
+
+		<p>Create categories with urls of "one" and "two". The IDs will need to be 1 and 2.
 		
 		<h3>Templates</h3>
 		
@@ -160,7 +161,7 @@
 				'_freebie_test/search&keywords=foo+bar&rice' : '_freebie_testsearch',
 				'_freebie_test/search&keywords=foo+bar&rice&sandwiches=false' : '_freebie_testsearch',
 				'_freebie_test/search/&keywords=foo+bar&rice&sandwiches=false' : '_freebie_testsearch',
-				'?keywords=foo+bar&rice&sandwiches=false' : 'index',
+				'?keywords=foo+bar&rice&sandwiches=false' : 'Homepage',
 				
 				// all together now
 				'one/siiiiix/_freebie_test/page/two/break/sandwiches/explosions' : '_freebie_page',
