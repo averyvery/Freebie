@@ -13,7 +13,7 @@ class Freebie_ext {
 	 */
 	var $name = 'Freebie';
 	var $description = 'Tell EE to ignore specific segments when routing URLs'; 
-	var $version = '0.0.8';
+	var $version = '0.1.0';
 	var $settings_exist = 'y';
 	var $docs_url = 'http://github.com/averyvery/Freebie#readme';
 	
@@ -286,7 +286,7 @@ class Freebie_ext {
 
 					// if this segment isn't killed by the "no numbers" setting, 
 					// move it to the new array
-					if(!$remove_numbers || !preg_match('/(\/[0-9]+|^[0-9]+)/', $segment)){
+					if(!$remove_numbers || !is_numeric($segment)){
 						array_push($clean_array, $segment);  
 					}
 

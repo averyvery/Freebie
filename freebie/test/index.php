@@ -172,11 +172,12 @@
 				
 				// check if number
 				'_freebie_test/numbers/88/' : 'false/true',
+				'_freebie_test/numbers/88ninety/' : 'false/false',
 				'_freebie_test/numbers/any/' : 'false/false',
 
 				// get category ids from strings
-				'_freebie_test/categories/one/' : '11',
-				'_freebie_test/categories/two/' : '22',
+				'_freebie_test/categories/one/' : '1One',
+				'_freebie_test/categories/two/' : '2Two',
 				'_freebie_test/categories/three/' : '',
 				
 				// always_parse

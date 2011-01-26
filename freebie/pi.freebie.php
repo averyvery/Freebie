@@ -4,7 +4,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 $plugin_info = array(
 	'pi_name' => 'Freebie',
-	'pi_version' => '0.0.8',
+	'pi_version' => '0.1.0',
 	'pi_author' => 'Doug Avery',
 	'pi_author_url' => 'http://github.com/averyvery/Freebie#readme',
 	'pi_description' => 'Check against any freebie segment',
@@ -57,7 +57,7 @@ class Freebie
 		return $match;
 	}
 	
-	function category_id()
+	function category_match($cat_key)
 	{
 		$this->EE =& get_instance();		
 		$match = '';
@@ -65,13 +65,23 @@ class Freebie
 		$category_url = $this->EE->config->_global_vars['freebie_'.$segment];
 
 	 $query = mysql_query("SELECT cat_id, cat_name FROM exp_categories WHERE cat_url_title = '$category_url'");
-	 while( $row = mysql_fetch_assoc( $query ) ) {
-			$match = $row['cat_id'];
+	 while( $row = mysql_fetch_assoc($query)) {
+			$match = $row[$cat_key];
 	 }		
 		
-	 return $match;
+		return $match;
+	}
+
+  function category_name()
+	{
+		return $this->category_match('cat_name');
 	}
 	
+  function category_id()
+	{
+		return $this->category_match('cat_id');
+	}
+
 	function debug()
 	{
 		$this->EE =& get_instance();		

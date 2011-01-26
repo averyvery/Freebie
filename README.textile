@@ -42,9 +42,9 @@ Use {exp:freebie:is_number segment="3"} to see if a segment is numeric or not. T
 
 {exp:freebie:is_number segment="3"}
 
-h3. Freebie:get_category
+h3. Freebie:category_id and _name
 
-Use {exp:freebie:category_id segment="3"} to get the category_id of a segment. Useful in a number of ways.
+Use {exp:freebie:category_id segment="3"} to get the category_id of a segment. Useful in a number of ways. {exp:freebie:category_name segment="3"} will return the name of the category.
 
 h2. Settings
 
