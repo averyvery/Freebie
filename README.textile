@@ -34,7 +34,7 @@ Use {exp:freebie:any name="segment_name"} to see if _any_ segment matches the "n
 
 @{exp:freebie:any name="blog"} == "true"@
 
-@{if {exp:freebie:any name="comments"} == "true"}<h2>Show comments</h2>{/if}@
+@{if "{exp:freebie:any name="comments"}" == "true"}<h2>Show comments</h2>{/if}@
 
 h3. Freebie:is_number
 
