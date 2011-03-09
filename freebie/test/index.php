@@ -176,8 +176,8 @@
 				'_freebie_test/numbers/any/' : 'false/false',
 
 				// get category ids from strings
-				'_freebie_test/categories/one/' : '1One',
-				'_freebie_test/categories/two/' : '2Two',
+				'_freebie_test/categories/one/' : '1One||One',
+				'_freebie_test/categories/two/' : '2Two||Two',
 				'_freebie_test/categories/three/' : '',
 				
 				// always_parse

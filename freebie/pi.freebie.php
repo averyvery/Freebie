@@ -4,7 +4,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 $plugin_info = array(
 	'pi_name' => 'Freebie',
-	'pi_version' => '0.1.0',
+	'pi_version' => '0.1.1',
 	'pi_author' => 'Doug Avery',
 	'pi_author_url' => 'http://github.com/averyvery/Freebie#readme',
 	'pi_description' => 'Check against any freebie segment',
@@ -62,9 +62,14 @@ class Freebie
 		$this->EE =& get_instance();		
 		$match = '';
 		$segment = $this->EE->TMPL->fetch_param('segment');
+		$group_id = $this->EE->TMPL->fetch_param('group_id');
 		$category_url = $this->EE->config->_global_vars['freebie_'.$segment];
+		$query_string = "SELECT cat_id, cat_name FROM exp_categories WHERE cat_url_title = '$category_url'";
+		if($group_id != ''){
+			$query_string .= "AND group_id = '$group_id'";
+		}
 
-	 $query = mysql_query("SELECT cat_id, cat_name FROM exp_categories WHERE cat_url_title = '$category_url'");
+	 $query = mysql_query($query_string);
 	 while( $row = mysql_fetch_assoc($query)) {
 			$match = $row[$cat_key];
 	 }		
