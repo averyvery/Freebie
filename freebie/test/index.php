@@ -158,10 +158,10 @@
 				// URLs with extra parameters
 				'_freebie_test/search&keywords=foo+bar' : '_freebie_testsearch',
 				'_freebie_test/search&keywords=foo+bar&sandwiches=false' : '_freebie_testsearch',
-				'_freebie_test/search&keywords=foo+bar&rice' : '_freebie_testsearch',
-				'_freebie_test/search&keywords=foo+bar&rice&sandwiches=false' : '_freebie_testsearch',
+				'_freebie_test/search/?keywords=foo+bar&rice' : 'foo bar',
+				'_freebie_test/search?keywords=foo+bar&rice&sandwiches=false' : '_freebie_testsearch',
 				'_freebie_test/search/&keywords=foo+bar&rice&sandwiches=false' : '_freebie_testsearch',
-				'?keywords=foo+bar&rice&sandwiches=false' : 'Homepage',
+				'_freebie_test/search/&keywords=foo+bar&rice&sandwiches=false&start=0/P3' : '_freebie_testsearch',
 				
 				// all together now
 				'one/siiiiix/_freebie_test/page/two/break/sandwiches/explosions' : '_freebie_page',

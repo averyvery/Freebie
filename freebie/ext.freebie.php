@@ -13,7 +13,7 @@ class Freebie_ext {
 	 */
 	var $name = 'Freebie';
 	var $description = 'Tell EE to ignore specific segments when routing URLs'; 
-	var $version = '0.1.1';
+	var $version = '0.1.2';
 	var $settings_exist = 'y';
 	var $docs_url = 'http://github.com/averyvery/Freebie#readme';
 	
@@ -57,8 +57,8 @@ class Freebie_ext {
 			// clear cache if necessary
 			$this->clear_cache();
 			
-			// strips out any & variables
-			$this->strip_variables();
+			// remove any url params
+			$this->remove_and_store_params();
 			
 		  /**
 			 * EE 2.0 relies on an internal array of segments for routing
@@ -95,6 +95,9 @@ class Freebie_ext {
 			// re-indexing segments (moving 0 to 1, 1 to 2, etc) is required after routing
 			$this->EE->uri->_reindex_segments();
 		
+			// re-add params to url
+			$this->restore_params();
+			
 		}
 
 	}
@@ -119,54 +122,26 @@ class Freebie_ext {
 	/**
 	 * Remove any variables from the segments
 	 */
-	function strip_variables(){
+	function remove_and_store_params(){
 
 		// Store URI for debugging
 		$this->EE->config->_global_vars['freebie_debug_uri'] = $this->EE->uri->uri_string; 
 
-		// Break it down: (^[^(/|=|\\?|&)]*=|(\\?|&)).*?$
-		$get_pattern = '#';
-			$get_pattern .= '(';								// open either block
-																						// match an entire string if there's an equal sign and no & or ?
-				$get_pattern .= '^';								// start matching at beginning of line
-				$get_pattern .= '[^(\\?|=|\&)]';			 // match characters that aren't /, =, ?, or &
-				$get_pattern .= '*=';								// keep matching until you hit =
-			$get_pattern .= '|';								// or
-				$get_pattern .= '(\\?|\&)';							// match the first ? or &
-			$get_pattern .= ')';								// close either block
-		$get_pattern .= '.*?$';								// match until end of string
-		$get_pattern .= '#';
-		
-		$to_match = $this->EE->uri->uri_string;
-		$matches = array();
-		preg_match( $get_pattern, $to_match, $matches);
-		
-		if ( isset( $matches[0] ) ) {
+		$this->param_pattern  = '#(';    // begin match group
+		$this->param_pattern .=   '\?';    // match a '?';
+		$this->param_pattern .=   '|';   // OR
+		$this->param_pattern .=   '\&';    // match a '?';
+		$this->param_pattern .= ')';    // end match group
+		$this->param_pattern .= '.*$';   // continue matching characters until end of string
+		$this->param_pattern .= '#';    // end match
 
-			if( substr( $matches[0], 0, 1 ) == '&' ) {
-				$matches[0] = substr( $matches[0], 1 );
-			}
-			$get_vars_parsed = explode('&', $matches[0]);
+		$matches = Array();
+		preg_match($this->param_pattern, $this->EE->uri->uri_string, $matches);
+		$this->url_params = (isset($matches[0])) ? $matches[0] : '';
+		$this->EE->uri->uri_string = preg_replace($this->param_pattern, '', $this->EE->uri->uri_string);
 
-			foreach($get_vars_parsed as $var) {
-				$var = explode('=', $var);
-				$key = $var[0];
-				$val = ( isset( $var[1] ) ) ? $var[1] : '';
-				$_GET[$key] = $val;
-			}
-
-			// remove them from the URI string and segments
-			$this->EE->uri->uri_string = preg_replace($get_pattern, '', $to_match);
-
-			for ($i = 1; $i <= count($this->EE->uri->segments); $i++){
-				$this->EE->uri->segments[ $i ] = preg_replace($get_pattern, '', $this->EE->uri->segments[ $i ]);
-			}
-
-			// Store stripped URI for debugging
-			$this->EE->config->_global_vars['freebie_debug_uri_stripped'] = $this->EE->uri->uri_string; 
-
-		} 
-		
+		// Store stripped URI for debugging
+		$this->EE->config->_global_vars['freebie_debug_uri_stripped'] = $this->EE->uri->uri_string; 
 	}
 	
 	/**
@@ -207,7 +182,9 @@ class Freebie_ext {
 		$segments = $this->EE->uri->segments;
 		$segments = array_pad($segments, 10, '');
 		for ($i = 1; $i <= count($segments); $i++){
-			$this->EE->config->_global_vars['freebie_'.$i] = $segments[$i - 1];			 
+			$segment = $segments[$i - 1];
+			$segment = $this->strip_params_from_segment($segment);
+			$this->EE->config->_global_vars['freebie_'.$i] = $segment;
 		}
 	
 		// Store original segments for debugging
@@ -215,6 +192,16 @@ class Freebie_ext {
 	
 	}
 	
+	/**
+	 * remove any parameters from a segment
+	 */
+	function strip_params_from_segment($segment = ''){
+
+		$segment = preg_replace($this->param_pattern, '', $segment);
+		return $segment;
+
+	}
+
 	/**
 	 * translate user settings to stuff we can use in the code
 	 */
@@ -327,6 +314,13 @@ class Freebie_ext {
 		$this->EE->uri->_explode_segments();
 	}
 	
+	/**
+	 * Re-add params to the uri
+	 */
+	function restore_params(){
+		$this->EE->uri->uri_string .= $this->url_params;			
+	}
+
 	/**
 	 * Activate Extension
 	 */
