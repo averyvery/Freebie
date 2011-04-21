@@ -64,7 +64,7 @@ class Freebie
 		$segment = $this->EE->TMPL->fetch_param('segment');
 		$group_id = $this->EE->TMPL->fetch_param('group_id');
 		$category_url = $this->EE->config->_global_vars['freebie_'.$segment];
-		$query_string = "SELECT cat_id, cat_name FROM exp_categories WHERE cat_url_title = '$category_url'";
+		$query_string = "SELECT cat_id, cat_name, cat_description, cat_image FROM exp_categories WHERE cat_url_title = '$category_url'";
 		if($group_id != ''){
 			$query_string .= "AND group_id = '$group_id'";
 		}
@@ -85,6 +85,16 @@ class Freebie
   function category_id()
 	{
 		return $this->category_match('cat_id');
+	}
+
+  function category_description()
+	{
+		return $this->category_match('cat_description');
+	}
+
+  function category_image()
+	{
+		return $this->category_match('cat_image');
 	}
 
 	function debug()
@@ -159,3 +169,5 @@ class Freebie
 
 /* Location: ./system/expressionengine/third_party/freebie/pi.freebie.php */
 ?>
+
+

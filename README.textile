@@ -42,11 +42,13 @@ Use {exp:freebie:is_number segment="3"} to see if a segment is numeric or not. T
 
 {exp:freebie:is_number segment="3"}
 
-h3. Freebie:category_id and _name
+h3. Freebie:category_id, _name, _description, _image
 
-Use {exp:freebie:category_id segment="3"} to get the category_id of a segment. Useful in a number of ways. {exp:freebie:category_name segment="3"} will return the name of the category.
+Use {exp:freebie:category_id segment="3"} to get the category_id of a segment. Useful in a number of ways. {exp:freebie:category_name segment="3"} will return the name of the category, and similar requests for category_description and category_image will do the same.
 
 If you want to specify a group ID to pull the category from, use the following syntax: {exp:freebie:category_id segment="3" group_id="2"}
+
+NOTE: You WILL NOT be able to use this tag directly in the category parameter of a channel:entries tag (I know, it sucks). Instead, try embedding the channel:entries loop and passing the category ID in.
 
 h2. Settings
 
