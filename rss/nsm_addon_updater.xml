@@ -5,6 +5,19 @@
 		<link>http://github.com/averyvery/Freebie/raw/master/rss/nsm_addon_updater.xml</link>
 		<description>Freebie Release Notes</description>
 		<item>
+			<title>Freebie 0.1.3.1</title>
+			<!-- Additional tag required for NSM Addon Updater -->
+			<ee_addon:version>0.1.3.1</ee_addon:version>
+			<link>http://github.com/averyvery/Freebie</link>
+			<pubDate>WED, 4 Apr 2011 08:00:00 +0000</pubDate>
+			<description><![CDATA[
+				<ul>
+					<li>Fixed an issue with trailing spaces.</li>
+				</ul>
+			]]></description>
+			<enclosure url="https://github.com/averyvery/Freebie/zipball/master" length="14715" type="application/zip" />
+		</item>
+		<item>
 			<title>Freebie 0.1.3</title>
 			<!-- Additional tag required for NSM Addon Updater -->
 			<ee_addon:version>0.1.3</ee_addon:version>
