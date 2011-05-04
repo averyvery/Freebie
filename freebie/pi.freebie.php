@@ -169,5 +169,3 @@ class Freebie
 
 /* Location: ./system/expressionengine/third_party/freebie/pi.freebie.php */
 ?>
-
-
