@@ -13,7 +13,7 @@ class Freebie_ext {
 	 */
 	var $name = 'Freebie';
 	var $description = 'Tell EE to ignore specific segments when routing URLs'; 
-	var $version = '0.1.3.2';
+	var $version = '0.1.3.3';
 	var $settings_exist = 'y';
 	var $docs_url = 'http://github.com/averyvery/Freebie#readme';
 	
@@ -110,7 +110,8 @@ class Freebie_ext {
 		
 		// is a URI? (lame test for checking to see if we're viewing the CP or not)
 		return isset($this->EE->uri->uri_string) &&
-							 
+					 substr($this->EE->uri->uri_string, 0) != '?' &&
+
 					 // Freebie actually executes twice - but the second time,
 					 // the "settings" object isn't an array, which breaks it.
 					 // (No idea why). Checking type fixes this.
