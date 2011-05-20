@@ -102,6 +102,10 @@
 				// check the templates
 				'_freebie_test' : '_freebie_test',
 				'_freebie_test/page' : '_freebie_page',
+
+				// make sure we don't eff with action URLs
+				'?ACT=33&id=149&return=/trusted-installers/search-results/London/25/1-2-3-5' : 'eee',
+				'?ACT=10&id=2222' : 'eee',
 				
 				
 				// basics - putting a freebie segment before/after a url
@@ -158,9 +162,10 @@
 				// URLs with extra parameters
 				'_freebie_test/search&keywords=foo+bar' : '_freebie_testsearch',
 				'_freebie_test/search&keywords=foo+bar&sandwiches=false' : '_freebie_testsearch',
-				'_freebie_test/search/?keywords=foo+bar&rice' : 'foo bar',
+				'_freebie_test/search/?keywords=foo+bar&rice' : '_freebie_testsearch',
 				'_freebie_test/search?keywords=foo+bar&rice&sandwiches=false' : '_freebie_testsearch',
 				'_freebie_test/search/&keywords=foo+bar&rice&sandwiches=false' : '_freebie_testsearch',
+				'_freebie_test/search/&keywords=foo+bar&rice&sandwiches=false&start=0/P3' : '_freebie_testsearch',
 				'_freebie_test/search/&keywords=foo+bar&rice&sandwiches=false&start=0/P3' : '_freebie_testsearch',
 				
 				// all together now
