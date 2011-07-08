@@ -11,6 +11,14 @@ Freebie is built to run in ExpressionEngine 2.0, and will 100% fail in anything 
 
 Caveat: If you're using Freebie to ignore segments at the root level (mydomain.com/ignoredsegment/blog), you have to take special care when using the NSM htaccess generator, or any htaccess scheme that uses the "include" method of index.php removal.
 
+h3. Known Issues
+
+"The URI you submitted has disallowed characters."
+
+This message can occur when using some modules, or during member account activation. The current known fix is to change your $config['permitted_uri_chars'] to include ?, =, and &.
+
+$config['permitted_uri_chars'] = 'a-z 0-9~%.:_\\-&?=';
+
 h2. Template Tags
 
 h3. Freebie Segment Tags
