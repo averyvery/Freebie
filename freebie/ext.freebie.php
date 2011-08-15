@@ -26,7 +26,8 @@ class Freebie_ext {
 		'ignore_beyond'  => '',
 		'break_category' => 'no',
 		'remove_numbers' => 'no',
-		'always_parse'	 => ''
+		'always_parse'	 => '',
+		'always_parse_pagination' => 'no'
 	);
 
 	function settings(){
@@ -35,7 +36,11 @@ class Freebie_ext {
 		$settings['break_category'] = array('r', array('yes' => 'yes', 'no' => 'no'),		
 																				 $this->settings_default['break_category']);
 		$settings['remove_numbers'] = array('r', array('yes' => 'yes', 'no' => 'no'),		
-																				 $this->settings_default['remove_numbers']);																				 
+																				 $this->settings_default['remove_numbers']);
+		
+		$settings['always_parse_pagination'] = array('r', array('yes' => 'yes', 'no' => 'no'),		
+																				 $this->settings_default['always_parse_pagination']);
+																						 																				 
 		$settings['always_parse']		= array('t', null, $this->settings_default['always_parse']);
 		return $settings;
 	}
@@ -75,6 +80,9 @@ class Freebie_ext {
 			$this->EE->config->_global_vars['freebie_debug_settings_break_category'] = $this->settings['break_category'];
 			$this->EE->config->_global_vars['freebie_debug_settings_remove_numbers'] = $this->settings['remove_numbers'];
 			$this->EE->config->_global_vars['freebie_debug_settings_always_parse'] = $this->settings['always_parse'];
+			$this->EE->config->_global_vars['freebie_debug_settings_always_parse_pagination'] = $this->settings['always_parse_pagination'];
+		
+			//print_r($this->settings['always_parse']);
 		
 			// if category breaking is on, retrieve the category url indicator and set it as a break segment
 			$this->break_on_category_indicator();
@@ -236,12 +244,23 @@ class Freebie_ext {
 	 * get specific segments that we ALWAYS want to parse, and to parse beyond
 	 */  
 	function get_always_parse(){
+		
+		if ($this->settings['always_parse_pagination'] == 'yes')
+		{
+			$dirty_array		= explode('/', $this->EE->uri->uri_string);
+			$clean_array		= array();
+		
+			foreach ($dirty_array as $segment){
+				if(preg_match("^P(\d+)^", $segment)){
+					$this->settings['always_parse'] .= '|' . $segment;
+				}
+			}	
+		}
 
 		$this->settings['always_parse'] .= '|' . $this->EE->config->config['profile_trigger'];
-				
-	}
-	
+		
 
+	}
 	/**
 	 * remove segments, based on the user's settings
 	 */  
@@ -264,7 +283,7 @@ class Freebie_ext {
 
 			$is_not_a_always_parse_segment = 
 				preg_match('#^('.$this->settings['always_parse'].')$#', $segment ) == false;
-									
+				
 			if( $is_not_a_always_parse_segment && $parse_all_remaining == false ){
 
 				$should_be_ignored = preg_match('#^('.$this->settings['to_ignore'].')$#', $segment ) == false;
@@ -318,7 +337,8 @@ class Freebie_ext {
 	 * Re-add params to the uri
 	 */
 	function restore_params(){
-		$this->EE->uri->uri_string .= $this->url_params;			
+		$this->EE->uri->uri_string .= $this->url_params;
+					
 	}
 
 	/**

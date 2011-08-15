@@ -88,6 +88,10 @@ h3. Break on category URL indicator
 
 If you set this option, Freebie will automatically ignore your category URL indicator and any segments past it.
 
+h3. Always parse pagination
+
+This will cause Freebie to always parse pagination. 
+
 h3. Always parse
 
 Freebie isn't very subtle, so sometimes it can screw with existing EE functionality or plugins (especially when you set it to ignore numeric segments). That's why there's 'Always Parse', which acts like an override, telling Freebie to stop messing with this segment and any segments after it. This is especially useful with 'search' templates.

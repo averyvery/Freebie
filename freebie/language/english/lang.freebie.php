@@ -45,6 +45,8 @@ $lang = array(
   'always_parse' => '<h4>Always Parse:</h4>
                          <p style="font-weight: normal">
                            If you have segments you NEVER want Freebie to screw with, set them here.
-                           (Example: search)</p>'
+                           (Example: search)</p>',
+  'always_parse_pagination' => '<h4>Always Parse Pagination:</h4>'
+   
                       
 );
