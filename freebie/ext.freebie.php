@@ -82,8 +82,6 @@ class Freebie_ext {
 			$this->EE->config->_global_vars['freebie_debug_settings_always_parse'] = $this->settings['always_parse'];
 			$this->EE->config->_global_vars['freebie_debug_settings_always_parse_pagination'] = $this->settings['always_parse_pagination'];
 		
-			//print_r($this->settings['always_parse']);
-		
 			// if category breaking is on, retrieve the category url indicator and set it as a break segment
 			$this->break_on_category_indicator();
 		 
