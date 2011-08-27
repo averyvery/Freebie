@@ -37,14 +37,11 @@ class Freebie_ext {
 																				 $this->settings_default['break_category']);
 		$settings['remove_numbers'] = array('r', array('yes' => 'yes', 'no' => 'no'),		
 																				 $this->settings_default['remove_numbers']);
-		
 		$settings['always_parse_pagination'] = array('r', array('yes' => 'yes', 'no' => 'no'),		
 																				 $this->settings_default['always_parse_pagination']);
-																						 																				 
 		$settings['always_parse']		= array('t', null, $this->settings_default['always_parse']);
 		return $settings;
 	}
-
 
 	/**
 	 * Extension constructor
@@ -54,8 +51,8 @@ class Freebie_ext {
 	function Freebie_ext($settings='')
 	{
 		// get EE global instance and extension settings
-		$this->settings = $settings;
 		$this->EE =& get_instance();
+		$this->settings = $settings;
 
 		if($this->should_execute()){
 			
@@ -359,6 +356,14 @@ class Freebie_ext {
 		$this->EE->functions->clear_caching('db');
 		$this->EE->db->insert('exp_extensions', $data);
 					
+	}
+
+	/**
+	 * Update Extension
+	 */
+	function update_extension()
+	{
+		$this->activate_extension();
 	}
 
 	/**
