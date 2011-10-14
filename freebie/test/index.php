@@ -48,7 +48,7 @@
 		
 		<p>Enter the address of your site here, and hit "test."</p>
 		
-		<input id="site_url" value="http://eemaster.local/" type="text"/>
+		<input id="site_url" value="http://freebie.local/" type="text"/>
 		<input id="test" value="Test!" type="submit" />		 
 		
 		<ul id="results"></ul>
@@ -81,7 +81,7 @@
 
 		<h3>Categories</h3>
 
-		<p>Create categories with urls of "one" and "two". The IDs will need to be 1 and 2.
+		<p>Create categories with urls of "one" and "two", names of "One" and "Two", descriptions of "Test", and images of "Image". The IDs will need to be 1 and 2.
 		
 		<h3>Templates</h3>
 		
@@ -104,8 +104,8 @@
 				'_freebie_test/page' : '_freebie_page',
 
 				// make sure we don't eff with action URLs
-				'?ACT=33&id=149&return=/trusted-installers/search-results/London/25/1-2-3-5' : 'eee',
-				'?ACT=10&id=2222' : 'eee',
+				'?ACT=33&id=149&return=/trusted-installers/search-results/London/25/1-2-3-5' : 'action you have requested',
+				'?ACT=10&id=2222' : 'Invalid',
 				
 				
 				// basics - putting a freebie segment before/after a url
@@ -137,6 +137,7 @@
 				'_freebie_test/break/sandwiches/explosions' : '_freebie_test',
 				'_freebie_test/break/page/sandwiches/explosions' : '_freebie_test',
 				'_freebie_test/page/break/sandwiches/explosions' : '_freebie_page',
+				'_freebie_test/post_break/break/one/two/three' : 'one|two|three|',
 								
 				// category test
 				'_freebie_test/category' : '_freebie_test',
@@ -171,23 +172,22 @@
 				// all together now
 				'one/siiiiix/_freebie_test/page/two/break/sandwiches/explosions' : '_freebie_page',
 
-				// make sure members is NOT being ignored
-				'member/profile' : 'Your Control Panel',
-				'member/1' : 'admin',
-				
 				// check if number
 				'_freebie_test/numbers/88/' : 'false/true',
 				'_freebie_test/numbers/88ninety/' : 'false/false',
 				'_freebie_test/numbers/any/' : 'false/false',
 
 				// get category ids from strings
-				'_freebie_test/categories/one/' : '1One||One',
-				'_freebie_test/categories/two/' : '2Two||Two',
+				'_freebie_test/categories/one/' : '1OneTest|Image|Test',
+				'_freebie_test/categories/two/' : '2TwoTest|Image|Test',
 				'_freebie_test/categories/three/' : '',
 				
 				// always_parse
 				'_freebie_test/parse/' : 'Parsed!',
 				
+				// debug
+				'_freebie_test/last/one/two/three/four' : 'four',
+
 				// debug
 				'_freebie_test/debug/' : 'To ignore: one|two|three|four|f.*?|s.*?x|.*?ven|parse',
 				'_freebie_test/debug/' : 'Ignore beyond: break',

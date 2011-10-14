@@ -13,7 +13,7 @@ class Freebie_ext {
 	 */
 	var $name = 'Freebie';
 	var $description = 'Tell EE to ignore specific segments when routing URLs'; 
-	var $version = '0.1.3.4';
+	var $version = '0.1.3.5';
 	var $settings_exist = 'y';
 	var $docs_url = 'http://github.com/averyvery/Freebie#readme';
 	
@@ -81,7 +81,7 @@ class Freebie_ext {
 		
 			// if category breaking is on, retrieve the category url indicator and set it as a break segment
 			$this->break_on_category_indicator();
-		 
+
 			// determine which segments to ALWAYS parse, and to always parse beyond
 			$this->get_always_parse();
 
@@ -183,6 +183,7 @@ class Freebie_ext {
 	function set_dirty_segments_as_global_vars(){
 
 		$segments = $this->EE->uri->segments;
+		$this->store_last_segment($segments);
 		$segments = array_pad($segments, 10, '');
 		for ($i = 1; $i <= count($segments); $i++){
 			$segment = $segments[$i - 1];
@@ -236,6 +237,15 @@ class Freebie_ext {
 	}
 	
 	/**
+	 * preserve the last segment
+	 */  
+	function store_last_segment($segments){
+
+		$this->EE->config->_global_vars['freebie_last'] = isset($segments[count($segments)]) ? $segments[count($segments)] : '';
+
+	}
+
+	/**
 	 * get specific segments that we ALWAYS want to parse, and to parse beyond
 	 */  
 	function get_always_parse(){
@@ -272,6 +282,7 @@ class Freebie_ext {
 
 		$break = false;
 		$parse_all_remaining = false;
+		$count = 0;
 
 		// move any segments that don't match patterns to clean array
 		foreach ($dirty_array as $segment){
@@ -296,6 +307,7 @@ class Freebie_ext {
 				// if this segment is one of the breakers, stop looping				 
 				if( preg_match('#^('.$this->settings['ignore_beyond'].')$#', $segment) ){
 					$break = true;
+					$this->set_remaining_segments_as_postbreaks($count, $dirty_array);
 				}
 
 			} else {
@@ -304,6 +316,8 @@ class Freebie_ext {
 				$parse_all_remaining = true;
 
 			}
+
+			$count++;
 			
 		} 
 										
@@ -318,6 +332,22 @@ class Freebie_ext {
 	
 	}
 		
+	/**
+	 * Sets all segments after a break as postbreak segments
+	 */
+	function set_remaining_segments_as_postbreaks($count, $segments){
+
+		$segments = array_slice($segments, $count + 1);
+		$segments = array_pad($segments, 10, '');
+
+		for ($i = 1; $i <= count($segments); $i++){
+			$segment = $segments[$i - 1];
+			$segment = $this->strip_params_from_segment($segment);
+			$this->EE->config->_global_vars['freebie_break_'.$i] = $segment;
+		}
+
+	}
+
 	/**
 	 * Unset existing internal segment arrays,
 	 *	 fetch new ones from the clean URI

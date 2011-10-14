@@ -60,6 +60,12 @@ If you want to specify a group and/or site ID to pull the category from, use the
 
 NOTE: You WILL NOT be able to use this tag directly in the category parameter of a channel:entries tag (I know, it sucks). Instead, try embedding the channel:entries loop and passing the category ID in.
 
+h3. A few more
+
+{freebie_last} will get you the last segment from the original URI.
+
+{freebie_break_1}, {freebie_break_2}, etc will return the segments after a break segment.
+
 h2. Settings
 
 h3. Basic settings
