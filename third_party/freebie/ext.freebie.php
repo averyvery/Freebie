@@ -13,7 +13,7 @@ class Freebie_ext {
 	 */
 	var $name = 'Freebie';
 	var $description = 'Tell EE to ignore specific segments when routing URLs'; 
-	var $version = '0.1.3.5';
+	var $version = '0.2';
 	var $settings_exist = 'y';
 	var $docs_url = 'http://github.com/averyvery/Freebie#readme';
 	
@@ -128,7 +128,7 @@ class Freebie_ext {
 	function remove_and_store_params(){
 
 		// Store URI for debugging
-		$this->EE->config->_global_vars['freebie_debug_uri'] = $this->EE->uri->uri_string; 
+		$this->EE->config->_global_vars['freebie_original_uri'] = $this->EE->uri->uri_string; 
 
 		$this->param_pattern  = '#(';    // begin match group
 		$this->param_pattern .=   '\?';    // match a '?';
@@ -144,7 +144,7 @@ class Freebie_ext {
 		$this->EE->uri->uri_string = preg_replace($this->param_pattern, '', $this->EE->uri->uri_string);
 
 		// Store stripped URI for debugging
-		$this->EE->config->_global_vars['freebie_debug_uri_stripped'] = $this->EE->uri->uri_string; 
+		$this->EE->config->_global_vars['freebie_stripped_uri'] = $this->EE->uri->uri_string; 
 	}
 	
 	/**

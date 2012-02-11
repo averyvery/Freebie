@@ -1,4 +1,4 @@
-h1. Freebie
+h1. Freebie 0.2
 
 Tell EE to ignore certain segments when routing. Put useful segments into your URI without getting 404s, bad templates, or messing up the routing "Structure":http://www.buildwithstructure.com uses.
 
@@ -35,6 +35,8 @@ Inside a template, you can access the original, un-effed-with URL segments using
 {freebie_2} == preview
 {freebie_3} == my-favorite-post
 {freebie_4} == comments
+{freebie_original_uri} == /blog/preview/my-favorite-post/comments/
+{freebie_stripped_uri} == /blog/my-favorite-post/
 
 h3. Freebie:any
 

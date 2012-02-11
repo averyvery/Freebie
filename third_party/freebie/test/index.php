@@ -178,8 +178,8 @@
 				'_freebie_test/numbers/any/' : 'false/false',
 
 				// get category ids from strings
-				'_freebie_test/categories/one/' : '1OneTest|Image|Test',
-				'_freebie_test/categories/two/' : '2TwoTest|Image|Test',
+				'_freebie_test/categories/one/' : '1|One|One|Test||Image|One|Test',
+				'_freebie_test/categories/two/' : '2|Two|Two|Test||Image|Two|Test',
 				'_freebie_test/categories/three/' : '',
 				
 				// always_parse
