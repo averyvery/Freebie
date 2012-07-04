@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
@@ -16,50 +16,51 @@ $plugin_info = array(
  *
  * @package		Freebie
  * @author		Doug Avery <doug.avery@viget.com>
+ * @license  http://www.gnu.org/licenses/gpl-3.0.html
  */
 
 class Freebie
 {
-		 
+
 	function Freebie()
 	{
-	
+
 	}
-	
+
 	function any()
 	{
-		$this->EE =& get_instance();		
+		$this->EE =& get_instance();
 		$match = 'false';
 		$name = $this->EE->TMPL->fetch_param('name');
-			
+
 		for ($i = 1; $i <= 11; $i++){
 			if ( isset( $this->EE->config->_global_vars['freebie_'.$i] ) ) {
 				if ( $this->EE->config->_global_vars['freebie_'.$i] == $name ) {
-					$match = 'true';					
+					$match = 'true';
 				}
 			}
 		}
-				
+
 		return $match;
 	}
-	
+
 	function is_number()
 	{
-		$this->EE =& get_instance();		
+		$this->EE =& get_instance();
 		$match = 'false';
 		$i = $this->EE->TMPL->fetch_param('segment');
 		$freebie_seg = $this->EE->config->_global_vars['freebie_'.$i];
-			
+
 		if ( is_numeric( $freebie_seg ) ) {
 			$match = 'true';
 		}
-		
+
 		return $match;
 	}
-	
+
 	function category_match($cat_key)
 	{
-		$this->EE =& get_instance();		
+		$this->EE =& get_instance();
 		$match = '';
 		$segment = $this->EE->TMPL->fetch_param('segment');
 		$group_id = $this->EE->TMPL->fetch_param('group_id');
@@ -76,8 +77,8 @@ class Freebie
 	 $query = mysql_query($query_string);
 	 while( $row = mysql_fetch_assoc($query)) {
 			$match = $row[$cat_key];
-	 }		
-		
+	 }
+
 		return $match;
 	}
 
@@ -85,7 +86,7 @@ class Freebie
 	{
 		return $this->category_match('cat_name');
 	}
-	
+
   function category_id()
 	{
 		return $this->category_match('cat_id');
@@ -103,41 +104,41 @@ class Freebie
 
 	function debug()
 	{
-		$this->EE =& get_instance();		
+		$this->EE =& get_instance();
 		if(isset($this->EE->config->_global_vars['freebie_debug_settings_to_ignore'])){
-			echo('<br />To ignore: ' . 
+			echo('<br />To ignore: ' .
 				$this->EE->config->_global_vars['freebie_debug_settings_to_ignore']);
 		}
 		if(isset($this->EE->config->_global_vars['freebie_debug_settings_ignore_beyond'])){
-			echo('<br />Ignore beyond: ' . 
+			echo('<br />Ignore beyond: ' .
 				$this->EE->config->_global_vars['freebie_debug_settings_ignore_beyond']);
 		}
 		if(isset($this->EE->config->_global_vars['freebie_debug_settings_break_category'])){
-			echo('<br />Break category: ' . 
+			echo('<br />Break category: ' .
 				$this->EE->config->_global_vars['freebie_debug_settings_break_category']);
 		}
 		if(isset($this->EE->config->_global_vars['freebie_debug_settings_remove_numbers'])){
-			echo('<br />Remove numbers: ' . 
+			echo('<br />Remove numbers: ' .
 				$this->EE->config->_global_vars['freebie_debug_settings_remove_numbers']);
 		}
 		if(isset($this->EE->config->_global_vars['freebie_debug_settings_always_parse'])){
-			echo('<br />Always parse: ' . 
+			echo('<br />Always parse: ' .
 				$this->EE->config->_global_vars['freebie_debug_settings_always_parse']);
 		}
 		if(isset($this->EE->config->_global_vars['freebie_debug_uri'])){
-			echo('<br />URI: ' . 
+			echo('<br />URI: ' .
 				$this->EE->config->_global_vars['freebie_debug_uri']);
 		}
 		if(isset($this->EE->config->_global_vars['freebie_debug_uri_stripped'])){
-			echo('<br />URI stripped: ' . 
+			echo('<br />URI stripped: ' .
 				$this->EE->config->_global_vars['freebie_debug_uri_stripped']);
 		}
 		if(isset($this->EE->config->_global_vars['freebie_debug_segments'])){
-			echo('<br />Segments: ' . 
+			echo('<br />Segments: ' .
 				$this->EE->config->_global_vars['freebie_debug_segments']);
 		}
 		if(isset($this->EE->config->_global_vars['freebie_debug_uri_cleaned'])){
-			echo('<br />URI cleaned: ' . 
+			echo('<br />URI cleaned: ' .
 				$this->EE->config->_global_vars['freebie_debug_uri_cleaned']);
 		}
 	}
@@ -151,25 +152,25 @@ class Freebie
 	 *
 	 * @access	public
 	 * @return	string
-	 */ 
+	 */
 		function usage()
 		{
-		ob_start(); 
+		ob_start();
 		?>
-		
+
 		Coming soon
-				
+
 		<?php
 		$buffer = ob_get_contents();
-		
-		ob_end_clean(); 
-	
+
+		ob_end_clean();
+
 		return $buffer;
 		}
 		// END
 
 }
-/* End of file pi.freebie.php */ 
+/* End of file pi.freebie.php */
 
 /* Location: ./system/expressionengine/third_party/freebie/pi.freebie.php */
 ?>

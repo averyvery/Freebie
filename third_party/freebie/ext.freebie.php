@@ -1,10 +1,11 @@
-<?php 
+<?php
 
 /**
  * Freebie Extension Class for ExpressionEngine 2
  *
- * @package		Freebie
- * @author		Doug Avery <doug.avery@viget.com>
+ * @package  Freebie
+ * @author   Doug Avery <doug.avery@viget.com>
+ * @license  http://www.gnu.org/licenses/gpl-3.0.html
  */
 class Freebie_ext {
 
@@ -12,11 +13,11 @@ class Freebie_ext {
 	 * Required vars
 	 */
 	var $name = 'Freebie';
-	var $description = 'Tell EE to ignore specific segments when routing URLs'; 
+	var $description = 'Tell EE to ignore specific segments when routing URLs';
 	var $version = '0.2';
 	var $settings_exist = 'y';
 	var $docs_url = 'http://github.com/averyvery/Freebie#readme';
-	
+
 	/**
 	 * Settings
 	 */
@@ -33,11 +34,11 @@ class Freebie_ext {
 	function settings(){
 		$settings['to_ignore']			= array('t', null, $this->settings_default['to_ignore']);
 		$settings['ignore_beyond']	= array('t', null, $this->settings_default['ignore_beyond']);
-		$settings['break_category'] = array('r', array('yes' => 'yes', 'no' => 'no'),		
+		$settings['break_category'] = array('r', array('yes' => 'yes', 'no' => 'no'),
 																				 $this->settings_default['break_category']);
-		$settings['remove_numbers'] = array('r', array('yes' => 'yes', 'no' => 'no'),		
+		$settings['remove_numbers'] = array('r', array('yes' => 'yes', 'no' => 'no'),
 																				 $this->settings_default['remove_numbers']);
-		$settings['always_parse_pagination'] = array('r', array('yes' => 'yes', 'no' => 'no'),		
+		$settings['always_parse_pagination'] = array('r', array('yes' => 'yes', 'no' => 'no'),
 																				 $this->settings_default['always_parse_pagination']);
 		$settings['always_parse']		= array('t', null, $this->settings_default['always_parse']);
 		return $settings;
@@ -55,13 +56,13 @@ class Freebie_ext {
 		$this->settings = $settings;
 
 		if($this->should_execute()){
-			
+
 			// clear cache if necessary
 			$this->clear_cache();
-			
+
 			// remove any url params
 			$this->remove_and_store_params();
-			
+
 		  /**
 			 * EE 2.0 relies on an internal array of segments for routing
 			 *		we'll be 'cleaning' our URI and producing shiny new segments from it,
@@ -78,7 +79,7 @@ class Freebie_ext {
 			$this->EE->config->_global_vars['freebie_debug_settings_remove_numbers'] = $this->settings['remove_numbers'];
 			$this->EE->config->_global_vars['freebie_debug_settings_always_parse'] = $this->settings['always_parse'];
 			$this->EE->config->_global_vars['freebie_debug_settings_always_parse_pagination'] = $this->settings['always_parse_pagination'];
-		
+
 			// if category breaking is on, retrieve the category url indicator and set it as a break segment
 			$this->break_on_category_indicator();
 
@@ -87,7 +88,7 @@ class Freebie_ext {
 
 			// remove the 'dirty' bits from the URI, which a user has specified in the settings
 			$this->clean_uri();
-				
+
 			// re-fill the segment arrays from our new, clean URI
 			$this->that_was_a_freebie();
 
@@ -97,20 +98,20 @@ class Freebie_ext {
 
 			// re-indexing segments (moving 0 to 1, 1 to 2, etc) is required after routing
 			$this->EE->uri->_reindex_segments();
-		
+
 			// re-add params to url
 			$this->restore_params();
-			
+
 		}
 
 	}
-	
-	 
+
+
 	/**
 	 * check to see if the conditions are in place to run freebie
 	 */
 	function should_execute(){
-		
+
 		// is a URI? (lame test for checking to see if we're viewing the CP or not)
 		return isset($this->EE->uri->uri_string) &&
 					 substr($this->EE->uri->uri_string, 0) != '?' &&
@@ -119,16 +120,16 @@ class Freebie_ext {
 					 // the "settings" object isn't an array, which breaks it.
 					 // (No idea why). Checking type fixes this.
 					 gettype($this->settings) == 'array';
-					 
+
 	}
-	
+
 	/**
 	 * Remove any variables from the segments
 	 */
 	function remove_and_store_params(){
 
 		// Store URI for debugging
-		$this->EE->config->_global_vars['freebie_original_uri'] = $this->EE->uri->uri_string; 
+		$this->EE->config->_global_vars['freebie_original_uri'] = $this->EE->uri->uri_string;
 
 		$this->param_pattern  = '#(';    // begin match group
 		$this->param_pattern .=   '\?';    // match a '?';
@@ -144,14 +145,14 @@ class Freebie_ext {
 		$this->EE->uri->uri_string = preg_replace($this->param_pattern, '', $this->EE->uri->uri_string);
 
 		// Store stripped URI for debugging
-		$this->EE->config->_global_vars['freebie_stripped_uri'] = $this->EE->uri->uri_string; 
+		$this->EE->config->_global_vars['freebie_stripped_uri'] = $this->EE->uri->uri_string;
 	}
-	
+
 	/**
 	 * Clear the cache on the first (uncached) pageload since saving
 	 */
 	function clear_cache(){
-		
+
 		$results = $this->EE->db->query("SELECT * FROM exp_extensions WHERE class='Freebie_ext'");
 		$db_settings = array();
 
@@ -160,23 +161,23 @@ class Freebie_ext {
 				$db_settings = ( unserialize( $row['settings'] ) );
 			}
 		}
-		
+
 		if ( ! isset( $db_settings['cache_cleared'] ) ) {
-			
+
 			// clear the DB cache
-			$this->EE->functions->clear_caching('db');			
-			
+			$this->EE->functions->clear_caching('db');
+
 			// add 'cache_cleared' to the settings
 			$db_settings['cache_cleared'] = 'yes';
-			$data = array('settings' => serialize($db_settings) );	 
+			$data = array('settings' => serialize($db_settings) );
 
 			$sql = $this->EE->db->update_string('exp_extensions', $data, "class = 'Freebie_ext'");
 			$this->EE->db->query($sql);
 
 		}
-			
+
 	}
-	
+
 	/**
 	 * convert the original segments from the URI to {segment_n}-type global variables
 	 */
@@ -190,12 +191,12 @@ class Freebie_ext {
 			$segment = $this->strip_params_from_segment($segment);
 			$this->EE->config->_global_vars['freebie_'.$i] = $segment;
 		}
-	
+
 		// Store original segments for debugging
 		$this->EE->config->_global_vars['freebie_debug_segments'] = implode('+', $this->EE->uri->segments);
-	
+
 	}
-	
+
 	/**
 	 * remove any parameters from a segment
 	 */
@@ -221,9 +222,9 @@ class Freebie_ext {
 
 	/**
 	 * add the category url indicator to the "break" array
-	 */  
+	 */
 	function break_on_category_indicator(){
-				
+
 		// did user set 'break category' to 'yes'?
 		$break_category = isset( $this->settings['break_category'] ) &&
 											$this->settings['break_category'] == 'yes' &&
@@ -233,12 +234,12 @@ class Freebie_ext {
 			$this->settings['to_ignore']		 .= '|'.$this->EE->config->config['reserved_category_word'];
 			$this->settings['ignore_beyond'] .= '|'.$this->EE->config->config['reserved_category_word'];
 		}
-				
+
 	}
-	
+
 	/**
 	 * preserve the last segment
-	 */  
+	 */
 	function store_last_segment($segments){
 
 		$this->EE->config->_global_vars['freebie_last'] = isset($segments[count($segments)]) ? $segments[count($segments)] : '';
@@ -247,31 +248,31 @@ class Freebie_ext {
 
 	/**
 	 * get specific segments that we ALWAYS want to parse, and to parse beyond
-	 */  
+	 */
 	function get_always_parse(){
-		
+
 		if ($this->settings['always_parse_pagination'] == 'yes')
 		{
 			$dirty_array		= explode('/', $this->EE->uri->uri_string);
 			$clean_array		= array();
-		
+
 			foreach ($dirty_array as $segment){
 				if(preg_match("^P(\d+)^", $segment)){
 					$this->settings['always_parse'] .= '|' . $segment;
 				}
-			}	
+			}
 		}
 
 		$this->settings['always_parse'] .= '|' . $this->EE->config->config['profile_trigger'];
-		
+
 
 	}
 	/**
 	 * remove segments, based on the user's settings
-	 */  
+	 */
 	function clean_uri(){
-		
-		// make an array full of "original" segments, 
+
+		// make an array full of "original" segments,
 		// and a blank array to move the good ones too
 		$dirty_array		= explode('/', $this->EE->uri->uri_string);
 		$clean_array		= array();
@@ -287,24 +288,24 @@ class Freebie_ext {
 		// move any segments that don't match patterns to clean array
 		foreach ($dirty_array as $segment){
 
-			$is_not_a_always_parse_segment = 
+			$is_not_a_always_parse_segment =
 				preg_match('#^('.$this->settings['always_parse'].')$#', $segment ) == false;
-				
+
 			if( $is_not_a_always_parse_segment && $parse_all_remaining == false ){
 
 				$should_be_ignored = preg_match('#^('.$this->settings['to_ignore'].')$#', $segment ) == false;
 
 				if( $should_be_ignored && $break == false ){
 
-					// if this segment isn't killed by the "no numbers" setting, 
+					// if this segment isn't killed by the "no numbers" setting,
 					// move it to the new array
 					if(!$remove_numbers || !is_numeric($segment)){
-						array_push($clean_array, $segment);  
+						array_push($clean_array, $segment);
 					}
 
-				} 
+				}
 
-				// if this segment is one of the breakers, stop looping				 
+				// if this segment is one of the breakers, stop looping
 				if( preg_match('#^('.$this->settings['ignore_beyond'].')$#', $segment) ){
 					$break = true;
 					$this->set_remaining_segments_as_postbreaks($count, $dirty_array);
@@ -312,26 +313,26 @@ class Freebie_ext {
 
 			} else {
 
-				array_push( $clean_array, $segment );  
+				array_push( $clean_array, $segment );
 				$parse_all_remaining = true;
 
 			}
 
 			$count++;
-			
-		} 
-										
-		if(count($clean_array) != 0){
-			$this->EE->uri->uri_string = implode('/', $clean_array);			
-		} else {
-			$this->EE->uri->uri_string = '';			
+
 		}
-		
+
+		if(count($clean_array) != 0){
+			$this->EE->uri->uri_string = implode('/', $clean_array);
+		} else {
+			$this->EE->uri->uri_string = '';
+		}
+
 		// Store 'cleaned' uri_string for debugging
-		$this->EE->config->_global_vars['freebie_debug_uri_cleaned'] = $this->EE->uri->uri_string; 
-	
+		$this->EE->config->_global_vars['freebie_debug_uri_cleaned'] = $this->EE->uri->uri_string;
+
 	}
-		
+
 	/**
 	 * Sets all segments after a break as postbreak segments
 	 */
@@ -357,13 +358,13 @@ class Freebie_ext {
 		$this->EE->uri->rsegments = array();
 		$this->EE->uri->_explode_segments();
 	}
-	
+
 	/**
 	 * Re-add params to the uri
 	 */
 	function restore_params(){
 		$this->EE->uri->uri_string .= $this->url_params;
-					
+
 	}
 
 	/**
@@ -371,7 +372,7 @@ class Freebie_ext {
 	 */
 	function activate_extension()
 	{
-		
+
 		$data = array(
 			'class'				=> 'Freebie_ext',
 			'hook'				=> 'sessions_start',
@@ -385,7 +386,7 @@ class Freebie_ext {
 		// insert in database
 		$this->EE->functions->clear_caching('db');
 		$this->EE->db->insert('exp_extensions', $data);
-					
+
 	}
 
 	/**
