@@ -62,7 +62,7 @@ If you want to specify a group and/or site ID to pull the category from, use the
 
 To get the category ID for a channel:entries tag, make sure to parse inward and use single quotes for the freebie arguments. Example:
 
-    {exp:channel:entries channel="news" category="{exp:freebie:category_id segment='2'}" parse="inward"}
+@{exp:channel:entries channel="news" category="{exp:freebie:category_id segment='2'}" parse="inward"}@
 
 h3. A few more
 
