@@ -60,7 +60,9 @@ Use {exp:freebie:category_id segment="3"} to get the category_id of a segment. U
 
 If you want to specify a group and/or site ID to pull the category from, use the following syntax: {exp:freebie:category_id segment="3" group_id="2" site_id="1"}
 
-NOTE: You WILL NOT be able to use this tag directly in the category parameter of a channel:entries tag (I know, it sucks). Instead, try embedding the channel:entries loop and passing the category ID in.
+To get the category ID for a channel:entries tag, make sure to parse inward and use single quotes for the freebie arguments. Example:
+
+    {exp:channel:entries channel="news" category="{exp:freebie:category_id segment='2'}" parse="inward"}
 
 h3. A few more
 
@@ -82,7 +84,7 @@ h3. Wildcards
 
 @march|april|may|ju*|august@
 
-The wildcard in @ju*@ means that both @june@ and @july@ will be freebie segments. 
+The wildcard in @ju*@ means that both @june@ and @july@ will be freebie segments.
 
 h3. Numbers
 
@@ -98,7 +100,7 @@ If you set this option, Freebie will automatically ignore your category URL indi
 
 h3. Always parse pagination
 
-This will cause Freebie to always parse pagination. 
+This will cause Freebie to always parse pagination.
 
 h3. Always parse
 
