@@ -52,8 +52,6 @@ h3. Freebie:is_number
 
 Use {exp:freebie:is_number segment="3"} to see if a segment is numeric or not. This is useful when you're ignoring numeric segments, but want to test for their presence.
 
-{exp:freebie:is_number segment="3"}
-
 h3. Freebie:category_id, _name, _description, _image
 
 Use {exp:freebie:category_id segment="3"} to get the category_id of a segment. Useful in a number of ways. {exp:freebie:category_name segment="3"} will return the name of the category, and similar requests for category_description and category_image will do the same.
