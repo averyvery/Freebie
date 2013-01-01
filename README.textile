@@ -13,6 +13,10 @@ Caveat: If you're using Freebie to ignore segments at the root level (mydomain.c
 
 h3. Known Issues
 
+*Template caching*
+
+Since Freebie spoofs the URI that EE uses for template caching, it can cause problems with caching. It is recommended that you don't use Freebie for functionality that you'll need to cache using EE's native caching methods.
+
 *"The URI you submitted has disallowed characters."*
 
 This message can occur when using some modules, or during member account activation. The current known fix is to change your $config['permitted_uri_chars'] to include ?, =, and &.
