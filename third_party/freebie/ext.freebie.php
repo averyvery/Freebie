@@ -330,7 +330,12 @@ class Freebie_ext {
 
 		// Store 'cleaned' uri_string for debugging
 		$this->EE->config->_global_vars['freebie_debug_uri_cleaned'] = $this->EE->uri->uri_string;
-
+		// return empty value if there is no breaking segment.
+		if(!isset($this->EE->config->_global_vars['freebie_break_1'])){
+			for ($i = 1; $i <= 11; $i++){
+				$this->EE->config->_global_vars['freebie_break_'.$i] = '';
+			}
+		}
 	}
 
 	/**
