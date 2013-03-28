@@ -63,13 +63,21 @@ class Freebie
 		$this->EE =& get_instance();
 		$match = '';
 		$segment = $this->EE->TMPL->fetch_param('segment');
-		$group_id = $this->EE->TMPL->fetch_param('group_id');
 		$site_id = $this->EE->TMPL->fetch_param('site_id');
 		$category_url = $this->EE->config->_global_vars['freebie_'.$segment];
 		$query_string = "SELECT cat_id, cat_name, cat_description, cat_image FROM exp_categories WHERE cat_url_title = '$category_url'";
-		if($group_id != ''){
-			$query_string .= "AND group_id = '$group_id'";
+		if ($this->EE->TMPL->fetch_param('group_id'))
+		{
+			if (substr($this->EE->TMPL->fetch_param('group_id'), 0, 3) == 'not')
+			{
+				$query_string .= $this->EE->functions->sql_andor_string($this->EE->TMPL->fetch_param('group_id'), 'exp_categories.group_id', '', TRUE)." ";
+			}
+			else
+			{
+				$query_string .= $this->EE->functions->sql_andor_string($this->EE->TMPL->fetch_param('group_id'), 'exp_categories.group_id')." ";
+			}
 		}
+
 		if($site_id != ''){
 			$query_string .= "AND site_id = '$site_id'";
 		}
