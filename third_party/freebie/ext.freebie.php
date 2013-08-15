@@ -14,7 +14,7 @@ class Freebie_ext {
 	 */
 	var $name = 'Freebie';
 	var $description = 'Tell EE to ignore specific segments when routing URLs';
-	var $version = '0.2';
+	var $version = '0.2.1';
 	var $settings_exist = 'y';
 	var $docs_url = 'http://github.com/averyvery/Freebie#readme';
 
@@ -364,7 +364,7 @@ class Freebie_ext {
 	 */
 	function restore_params(){
 		$this->EE->uri->uri_string .= $this->url_params;
-
+		$this->EE->config->_global_vars['freebie_final_uri'] = $this->EE->uri->uri_string;
 	}
 
 	/**

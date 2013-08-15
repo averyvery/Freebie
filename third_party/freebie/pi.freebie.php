@@ -4,7 +4,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 $plugin_info = array(
 	'pi_name' => 'Freebie',
-	'pi_version' => '0.2',
+	'pi_version' => '0.2.1',
 	'pi_author' => 'Doug Avery',
 	'pi_author_url' => 'http://github.com/averyvery/Freebie#readme',
 	'pi_description' => 'Check against any freebie segment',
@@ -144,7 +144,7 @@ class Freebie
 	}
 
 /**
- * Compares the freebie original uri to the pagination_url in EE pagination, and returns an updated 
+ * Compares the freebie original uri to the pagination_url in EE pagination, and returns an updated
  * url with "hidden" freebie segments
  * @return string updated pagination url
  */
@@ -152,11 +152,11 @@ class Freebie
 	{
 
 		$this->EE =& get_instance();
-		
+
 		$pagination_url = $this->EE->TMPL->tagdata;
 
 		if( isset($this->EE->config->_global_vars["freebie_original_uri"]) ){
-		
+
 			$freebie_url = $this->EE->config->_global_vars["freebie_original_uri"];
 
 			$pagination_segments = explode("/", $pagination_url);
@@ -164,17 +164,17 @@ class Freebie
 
 			// first, checking to see if our paginated_url segment has a pagination flag in the last segment
 			if( substr($pagination_segments[ count($pagination_segments) - 1 ],0,1) === "P"){
-				
+
 				// next, check to see if the freebie_url has a pagination flag -- if so, replace it -- otherwise concat.
 				if( substr($freebie_segments[ count($freebie_segments) - 1 ],0,1) === "P" ){
 					$freebie_segments[ count($freebie_segments) - 1 ] = $pagination_segments[ count($pagination_segments) - 1 ];
 				}else{
 					$freebie_segments[] = $pagination_segments[ count($pagination_segments) - 1 ];
 				}
-				
+
 				// lastly, re-stringify our newly adjusted url
 				$adjusted_pagination_url = "/" . implode("/", $freebie_segments);
-				
+
 				return $adjusted_pagination_url;
 
 			}
