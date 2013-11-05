@@ -14,7 +14,7 @@ class Freebie_ext {
 	 */
 	var $name = 'Freebie';
 	var $description = 'Tell EE to ignore specific segments when routing URLs';
-	var $version = '0.2.1';
+	var $version = '0.2.2';
 	var $settings_exist = 'y';
 	var $docs_url = 'http://github.com/averyvery/Freebie#readme';
 
@@ -257,7 +257,7 @@ class Freebie_ext {
 			$clean_array		= array();
 
 			foreach ($dirty_array as $segment){
-				if(preg_match("^P(\d+)^", $segment)){
+				if(preg_match("#^P(\d+)$#", $segment)){
 					$this->settings['always_parse'] .= '|' . $segment;
 				}
 			}
