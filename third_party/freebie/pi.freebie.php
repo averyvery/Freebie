@@ -89,7 +89,17 @@ class Freebie
 
   function category_id()
 	{
-		return $this->category_match('cat_id');
+		$match = $this->category_match('cat_id');
+
+		$fallback = $this->EE->TMPL->fetch_param('fallback');
+		$fallback_id = $this->EE->TMPL->fetch_param('fallback_id');
+
+		if ( strtolower($fallback) == "yes") {
+			$match = $match ? $match : $fallback_id;
+		}
+
+		return $match;
+
 	}
 
   function category_description()
