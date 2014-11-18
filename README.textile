@@ -1,4 +1,4 @@
-h1. Freebie 0.2.1
+h1. Freebie 0.2.3
 
 Tell EE to ignore certain segments when routing. Put useful segments into your URI without getting 404s, bad templates, or messing up the routing "Structure":http://www.buildwithstructure.com uses.
 
