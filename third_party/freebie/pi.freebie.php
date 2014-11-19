@@ -61,21 +61,26 @@ class Freebie
 	function category_match($cat_key)
 	{
 		$this->EE =& get_instance();
+		
 		$match = '';
 		$segment = $this->EE->TMPL->fetch_param('segment');
 		$group_id = $this->EE->TMPL->fetch_param('group_id');
 		$site_id = $this->EE->TMPL->fetch_param('site_id');
 		$category_url = $this->EE->config->_global_vars['freebie_'.$segment];
-		$query_string = "SELECT cat_id, cat_name, cat_description, cat_image FROM exp_categories WHERE cat_url_title = '$category_url'";
+		$query_string = "SELECT cat_id, cat_name, cat_description, cat_image FROM exp_categories WHERE cat_url_title = ?";
+		$values = array($category_url);
 		if($group_id != ''){
-			$query_string .= "AND group_id = '$group_id'";
+			$query_string .= " AND group_id = ?";
+			$values[] = $group_id;
 		}
 		if($site_id != ''){
-			$query_string .= "AND site_id = '$site_id'";
+			$query_string .= " AND site_id = ?";
+			$values[] = $site_id;
 		}
 
-	 $query = mysql_query($query_string);
-	 while( $row = mysql_fetch_assoc($query)) {
+	 $query = $this->EE->db->query($query_string,$values);
+	 
+	 foreach ($query->result_array() as $row) {
 			$match = $row[$cat_key];
 	 }
 
