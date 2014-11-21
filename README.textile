@@ -66,6 +66,10 @@ To get the category ID for a channel:entries tag, make sure to parse inward and 
 
 @{exp:channel:entries channel="news" category="{exp:freebie:category_id segment='2'}" parse="inward"}@
 
+Also, when using {exp:freebie:category_id}, you can pass the optional parameters fallback="yes" and fallback_id="{category_id}" that will default entries to that category_id if freebie can't return to any entry matched by the segment parameter. Example:
+
+@{exp:freebie:category_id segment="3" fallback="yes" fallback_id="1"}@
+
 h3. A few more
 
 {freebie_last} will get you the last segment from the original URI.
