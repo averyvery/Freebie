@@ -1,6 +1,6 @@
 <?php
 
   $config['name']='Freebie';
-  $config['version']='0.2.3';
+  $config['version']='0.2.4';
 
 ?>
