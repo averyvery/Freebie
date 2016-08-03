@@ -200,7 +200,7 @@ class Freebie
    * @access	public
    * @return	string
    */
-    function usage()
+    public static function usage()
     {
     ob_start();
     ?>
